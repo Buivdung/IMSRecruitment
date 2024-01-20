@@ -63,9 +63,7 @@ public class IndexController {
     @PostMapping("/")
     public String loginSuccess(HttpServletRequest req) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getName());
         Users user = userService.findUserByAccount_Email(authentication.getName());
-        System.out.println("login success");
         HttpSession session = req.getSession();
         session.setAttribute(ELabelCommon.USER.getValue(), user);
         if (user.getAccount().isCheckPassword()) {
