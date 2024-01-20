@@ -46,6 +46,7 @@ public class JobServiceImpl implements JobService {
     @Transactional
     public Job saveJob(JobRequest jobRequest) {
         Job job = mapJob(new Job(), jobRequest);
+        job.setInterviewed(0L);
         if (jobRepository.existsJobByTitleAndLevelAndStatus(job.getTitle(), job.getLevel(), EStatus.OPEN)) {
             return null;
         }

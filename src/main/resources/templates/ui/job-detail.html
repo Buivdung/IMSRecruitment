@@ -28,12 +28,12 @@
                     <div>
                         <ion-icon name="cash-outline"></ion-icon>
                         <p sec:authorize="authenticated"
-                                class="job-salary"
-                                th:utext="${'$' + job.salaryFrom + ' - $' + job.salaryTo}"></p>
+                           class="job-salary"
+                           th:utext="${'$' + job.salaryFrom + ' - $' + job.salaryTo}"></p>
                         <a th:href="@{/login}"
                            sec:authorize="!authenticated"
-                                class="job-salary"
-                           >Đăng nhập để xem chi tiết lương</a>
+                           class="job-salary"
+                        >Đăng nhập để xem chi tiết lương</a>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,12 @@
                     </div>
                 </div>
                 <div class="apply">
-                    <button onclick="applyCv()">Ứng tuyển ngay</button>
+                    <button th:if="${job.endDate.isAfter(now)}"
+                            onclick="applyCv()">Ứng tuyển ngay
+                    </button>
+                    <button th:if="${job.endDate.isBefore(now)}"
+                            class="disabled">Đã hết hạn
+                    </button>
                     <div class="general">
                         <p class="general-title">Thông tin chung</p>
                         <div>

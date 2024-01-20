@@ -16,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/admin/interview")
@@ -45,15 +47,19 @@ public class InterviewController {
     @GetMapping("/create")
     public String create(@ModelAttribute InterviewRequest interviewRequest
             , Model model) {
+        List<Job> jobs = jobService.findJobByStatusOpenAndApply();
         model.addAttribute("interviewRequest", interviewRequest);
-        model.addAttribute("jobs", jobService.findJobByStatusOpen());
+        model.addAttribute("jobs", jobs);
         model.addAttribute("users", userService.findUserByRoleInterviewAndRecruiter());
         return "ui/interview/add";
     }
 
     @PostMapping("/create")
-    public String createInterview(@ModelAttribute @Validated InterviewRequest interviewRequest, BindingResult bindingResult
-            , Model model) throws MessagingException {
+    public String createInterview(
+            @ModelAttribute @Validated InterviewRequest interviewRequest,
+                                  BindingResult bindingResult,
+            RedirectAttributes ra,
+            Model model) throws MessagingException {
         if(bindingResult.hasErrors()) {
             model.addAttribute("interviewRequest", interviewRequest);
             model.addAttribute("alert", "Create false");
@@ -61,7 +67,14 @@ public class InterviewController {
             model.addAttribute("users", userService.findUserByRoleInterviewAndRecruiter());
             return "ui/interview/add";
         }
-        interviewService.saveInterviewSchedule(interviewRequest);
+       InterviewSchedule interviewSchedule = interviewService.saveInterviewSchedule(interviewRequest);
+        if(Objects.isNull(interviewSchedule)){
+            model.addAttribute("interviewRequest", interviewRequest);
+            model.addAttribute(ELabelCommon.ALERT.getValue(), "Fail");
+            model.addAttribute(ELabelCommon.MESSAGE.getValue(), "Interview da ton tai");
+            return "ui/interview/add";
+        }
+        ra.addFlashAttribute(ELabelCommon.ALERT.getValue(), "Success");
         return "redirect:/admin/interview/create";
     }
 
@@ -82,11 +95,18 @@ public class InterviewController {
     public String editInterview(@PathVariable Long id,
                                 @ModelAttribute InterviewRequest interviewRequest,
                                 BindingResult bindingResult,
+                                RedirectAttributes ra,
                                 Model model) throws MessagingException {
         if(bindingResult.hasErrors()){
             return edit(id,interviewRequest,model);
         }
         InterviewSchedule interviewSchedule = interviewService.updateInterviewSchedule(interviewRequest);
+        if(Objects.isNull(interviewSchedule)){
+            ra.addAttribute("interviewRequest", interviewRequest);
+            ra.addAttribute(ELabelCommon.ALERT.getValue(), "Fail");
+            ra.addAttribute(ELabelCommon.MESSAGE.getValue(), "Update khong thanh cong");
+        }
+        ra.addFlashAttribute(ELabelCommon.MESSAGE.getValue(), "Success");
         return "redirect:/admin/interview/edit/" + id;
     }
 
@@ -118,6 +138,7 @@ public class InterviewController {
                          @ModelAttribute ResultRequest resultRequest,
                          Model model) {
         resultService.updateResult(resultRequest);
+        model.addAttribute("alert","Update thanh cong");
         return "redirect:/admin/interview/" + interviewId + "/result/" + resultId;
     }
 
@@ -130,9 +151,9 @@ public class InterviewController {
         return "ui/interview/detail";
     }
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id,Model model) throws MessagingException {
+    public String delete(@PathVariable Long id,RedirectAttributes ra) throws MessagingException {
         interviewService.deleteInterviewSchedule(id);
-        model.addAttribute("alert","Success");
+        ra.addFlashAttribute("alert","Success");
         return "redirect:/admin/interview/";
     }
 }

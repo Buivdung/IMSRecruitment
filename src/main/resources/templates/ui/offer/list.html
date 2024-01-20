@@ -178,14 +178,17 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import file</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Export offer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/job/import}" method="post" enctype="multipart/form-data">
-                        <input type="file" name="fileImport"/>
+                    <form th:action="@{/admin/offer/export}" method="post" >
+                        <label for="fromDate">From date</label>
+                        <input type="date" id="fromDate" name="fromDate"/>
+                        <label for="fromDate">To date</label>
+                        <input type="date" id="toDate" name="toDate"/>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Import</button>
+                        <button type="submit" class="btn btn-primary">Export</button>
                     </form>
                 </div>
             </div>

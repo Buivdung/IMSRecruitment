@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -104,6 +105,7 @@ public class IndexController {
     //    detail
     @GetMapping("/job-detail/{id}")
     public String jobDetail(@PathVariable Long id, Model model) {
+        model.addAttribute("now",LocalDate.now());
         model.addAttribute("job", jobService.findJobById(id));
         return "ui/job-detail";
     }
