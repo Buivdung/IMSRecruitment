@@ -1,0 +1,256 @@
+/* =============== Globals ============== */
+* {
+    font-family: Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #2a2185;
+    --bg-secondary: rgb(130, 179, 238);
+    --color: #fff;
+    --gray: #f5f5f5;
+    --black1: #222;
+    --black2: #999;
+    --black3: #bebebe;
+    --orange: #dd3f24;
+    --orange2: #f8dbd5;
+    --green: #020202;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+.container-fluid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.container {
+    width: 80%;
+    padding: 30px 0;
+}
+/* navbar */
+
+.navbar {
+    width: 100%;
+}
+.navbar-header {
+    display: flex;
+    height: 80px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background-color: var(--color);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.navbar-brand {
+    color: var(--orange);
+    transition: 0.1s ease;
+    margin-left: 20px;
+    text-decoration: none;
+}
+.navbar-header .navbar-items ul {
+    height: 80px;
+    list-style-type: none;
+    display: flex;
+}
+.navbar-header .navbar-items ul li {
+    height: 100%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+.navbar-header .navbar-items ul .login a:first-child {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    border: 1px solid var(--orange);
+    color: var(--orange);
+    border-radius: 3px;
+}
+.navbar-header .navbar-items ul .login:hover a:first-child {
+    background-color: var(--orange);
+    color: var(--color);
+}
+.navbar-header .navbar-items ul .dropdown:hover {
+    color: var(--orange);
+}
+.navbar-header .navbar-items ul li ion-icon {
+    margin-left: 20px;
+    rotate: 0deg;
+    transition: 0.4s ease;
+}
+.navbar-header .navbar-items ul .dropdown:hover ion-icon {
+    color: var(--orange);
+    rotate: 180deg;
+    transition: 0.4s ease;
+}
+.navbar-header .navbar-items ul .dropdown .no-rotate:first-child {
+    color: var(--orange);
+    margin-right: 5px;
+    rotate: 0deg;
+    font-size: 25px;
+}
+.navbar-header .navbar-items ul .dropdown:hover .no-rotate {
+    color: var(--orange);
+    margin-right: 5px;
+    rotate: 0deg;
+}
+.navbar-header .navbar-items ul .dropdown {
+    position: relative;
+}
+.navbar-header .navbar-items ul .dropdown span {
+   font-size: 18px;
+}
+.navbar-header .navbar-items ul .dropdown .dropdown-content {
+    top: 150%;
+    display: none;
+    position: absolute;
+    color: var(--black2);
+    background-color: var(--color);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border:1px solid var(--orange2);
+}
+
+.navbar-header .navbar-items ul li:hover .dropdown-content {
+    top: 100%;
+    width: 200px;
+    display: block;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--black2);
+}
+.navbar-toggle {
+    font-size: 50px;
+    border: 1px solid salmon;
+    display: none;
+    border-radius: 3px;
+    height: 50px;
+    width: 50px;
+    color: salmon;
+}
+
+/* navbar left */
+
+.navbar-left {
+    position: absolute;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100vh;
+    background-color: var(--gray);
+    transition: 0.5s ease;
+    box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-left .navbar-brand h1 {
+    padding-left: 20px;
+}
+.navbar-left div:nth-child(2),
+.navbar-left div:nth-child(3) {
+    padding: 20px 0;
+}
+.navbar-left .menu-items-left:nth-child(3) {
+    display: none;
+}
+.navbar-left .menu-items-left ul {
+    list-style-type: none;
+}
+.navbar-left .menu-items-left ul li {
+    padding: 15px 30px;
+    border-bottom: 1px solid var(--orange);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar-left .menu-items-left ul li:hover {
+    color: var(--orange);
+    cursor: pointer;
+}
+
+.navbar-left .menu-items-left .item-title {
+    display: flex;
+    align-items: center;
+    background-color: var(--orange);
+    color: var(--color);
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: 500;
+}
+.navbar-left .menu-items-left .item-title ion-icon {
+    margin-right: 20px;
+}
+.navbar-left .menu-items-left .item-title:hover {
+    background-color: var(--color);
+    color: var(--orange);
+}
+
+.btn-close {
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    float: right;
+}
+.navbar-footer{
+    background-color: #999;
+}
+.navbar-footer h1{
+    color: var(--orange);
+}
+.navbar-footer p{
+    margin: 10px;
+}
+.alerts {
+    position: absolute;
+    top: 100px;
+    right: 100px;
+    padding: 10px 40px;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--orange);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--orange);
+    font-weight: 500;
+}
+/* ====================== Responsive Design ========================== */
+@media (max-width: 991px) {
+    .navbar-items {
+        display: none;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 480px) {
+}

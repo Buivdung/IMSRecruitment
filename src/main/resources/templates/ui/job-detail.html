@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navagation-user}"
+>
+<head>
+    <link rel="stylesheet" th:href="@{/css/jobdetail-user.css}">
+    <link rel="stylesheet" th:href="@{/css/home-user.css}">
+</head>
+<body>
+
+<div layout:fragment="content" style="background-color: beige">
+    <div class="con-f">
+        <div class="con" style="padding: 10px">
+            <div class="job">
+                <div class="thum">
+                    <img th:src="@{/image/logo.PNG}" alt="" width="80px" height="80px">
+                </div>
+                <div class="job-detail">
+                    <p class="job-title" th:utext="${job.title}"></p>
+                    <h6 class="job-company">IMS</h6>
+                    <div>
+                        <ion-icon name="location-outline"></ion-icon>
+                        <p class="job-address" th:utext="${job.workingAddress}"></p>
+                    </div>
+                    <div>
+                        <ion-icon name="cash-outline"></ion-icon>
+                        <p sec:authorize="authenticated"
+                                class="job-salary"
+                                th:utext="${'$' + job.salaryFrom + ' - $' + job.salaryTo}"></p>
+                        <a th:href="@{/login}"
+                           sec:authorize="!authenticated"
+                                class="job-salary"
+                           >Đăng nhập để xem chi tiết lương</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="con-f">
+        <div class="con" style="padding: 10px">
+            <div class="job-body">
+                <div class="job-description">
+                    <div class="job-description_title">
+                        <p> Mô tả công việc</p>
+                    </div>
+                    <div class="job-responsibilities">
+                        <p>Tránh nhiệm công việc</p>
+                        <ul>
+                            <li th:each="des : ${job.description.split(';')}"
+                                th:utext="${des}">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="job-qualifications">
+                        <p>Kỹ năng & Chuyên môn</p>
+                        <ul>
+                            <li th:each="qua : ${job.qualification.split(';')}"
+                                th:utext="${qua}">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="job-benefits">
+                        <p>Phúc lợi dành cho bạn</p>
+                        <ul>
+                            <li th:each="ben : ${job.benefit.split(';')}"
+                                th:utext="${ben}">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="apply">
+                    <button onclick="applyCv()">Ứng tuyển ngay</button>
+                    <div class="general">
+                        <p class="general-title">Thông tin chung</p>
+                        <div>
+                            <p>Cấp bậc</p>
+                            <span th:utext="${job.level.name}"> </span>
+                        </div>
+                        <div>
+                            <p>Kỹ năng</p>
+                            <span th:each="s : ${job.skillJobs}" th:utext="${s.skill.name + ' , '}"> </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-bg">
+        <div class="modal-apply">
+            <button onclick="closeCv()" class="modal-apply-close">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <p class="modal-apply-title"
+               th:utext="${'Bạn đang ứng tuyển ' + job.title + ' tại IMS'}">
+            </p>
+
+            <form th:action="@{/applyCv}"
+                  method="post"
+                  enctype="multipart/form-data">
+                <div>
+                    <label class="modal-apply-label" for="fullName">
+                        Họ và Tên:
+                    </label>
+                    <input class="fullName"
+                           id="fullName"
+                           type="text"
+                           name="fullName"
+                           placeholder="Nguyen Van A"
+                           required/>
+                </div>
+                <div>
+                    <label class="modal-apply-label" for="email">
+                        Email:
+                    </label>
+                    <input th:if="${#ctx.session.user == null}"
+                           class="email"
+                           id="email"
+                           type="email"
+                           name="email"
+                           placeholder="nguyenvana@gmail.com"
+                           required/>
+                    <input th:if="${#ctx.session.user != null}"
+                           class="email"
+                           type="text"
+                           name="email"
+                           readonly
+                           style="pointer-events: none;background-color: var(--black3)"
+                           th:value="${#ctx.session.user.account.email}"/>
+                </div>
+                <div>
+                    <label for="phoneNumber">
+                        Số điện thoại:
+                    </label>
+                    <input class="phoneNumber"
+                           id="phoneNumber"
+                           type="text"
+                           name="phoneNumber"
+                           placeholder="0987654321"
+                           required/>
+                </div>
+                <div class="cv">
+                    <label for="cv">
+                        Cv:
+                    </label>
+                    <input class="cv"
+                           id="cv"
+                           name="cv"
+                           type="file"
+                           required/>
+                    <small>Hỗ trợ định dạng *.doc, *.docx, *.pdf, và < 5MB</small>
+                </div>
+                <div>
+                    <label for="note">
+                        Giới thiệu:
+                    </label>
+                    <textarea class="note"
+                              name="note"
+                              id="note"
+                              rows="4"></textarea>
+                </div>
+                <input type="hidden" th:value="${job.id}" name="jobId">
+                <input type="hidden" th:value="${false}" name="mode">
+                <div>
+                    <button type="reset">Hủy</button>
+                    <button type="submit"> Nạp cv</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function applyCv() {
+            $(".modal-bg").addClass("active");
+        }
+
+        function closeCv() {
+            $(".modal-bg").removeClass("active");
+        }
+    </script>
+</div>
+</body>
+</html>

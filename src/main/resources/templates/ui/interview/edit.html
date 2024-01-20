@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/choices.css}" rel="stylesheet">
+    <script th:src="@{/js/choices.js}"></script>
+    <link th:href="@{/css/common-add.css}" rel="stylesheet">
+    <script th:src="@{/js/interview.js}"></script>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div>
+        <nav aria-label="breadcrumb" class="my-1">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Create interview schedule</li>
+            </ol>
+        </nav>
+        <section class="p-5 user-container">
+            <div th:if="${message}" class="text-center mb-3">
+                <span th:utext="${message}" class="text-danger"></span>
+            </div>
+            <form th:action="@{/admin/interview/edit/{id}(id=${interviewSchedule.id})}"
+                  class="needs-validation"
+                  method="post"
+                  novalidate
+                  th:object="${interviewRequest}">
+                <div class="user-form">
+                    <div class="user-form-left">
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   class="form-input form-control"
+                                   id="title"
+                                   name="title"
+                                   placeholder=" "
+                                   th:value="${interviewSchedule.title}"
+                                   required/>
+                            <label class="form-lb" for="title">Title</label>
+                            <ion-icon class="form-icon" name="newspaper-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a title.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                                <input type="text"
+                                       style="background-color: lightgray;pointer-events: none"
+                                       class="form-input form-control"
+                                       th:value="${interviewSchedule.resultInterviews.get(0).candidate.job.title}"
+                                       readonly
+                                       required/>
+
+                            <label class="form-lb form-lb-job" for="jobId">Job</label>
+                            <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"
+                               style="font-size: 12px"></i>
+                            <ion-icon class="form-icon" name="bag-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a job.
+                            </div>
+                            <input type="hidden"
+                                   th:value="${interviewSchedule.resultInterviews.get(0).candidate.job.id}"
+                                   id="jobId"
+                                   name="jonId">
+                            <input type="hidden"
+                                   th:value="${interviewSchedule.id}"
+                                   id="id"
+                                   name="id">
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="number"
+                                   class="form-input form-control"
+                                   placeholder=" "
+                                   style="background-color: lightgray;pointer-events: none"
+                                   id="candidateNumber"
+                                   name="candidateNumber"
+                                   th:value="${interviewSchedule.candidateNumber}"
+                                   readonly
+                                   required/>
+                            <label class="form-lb" for="candidateNumber">Candidate no.</label>
+                            <ion-icon class="form-icon" name="newspaper-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a number form 5 to 10.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input class="form-input datetime form-control"
+                                   id="schedule"
+                                   name="schedule"
+                                   placeholder=" "
+                                   th:value="${interviewSchedule.schedule}"
+                                   required/>
+                            <label class="form-lb" for="schedule"> Schedule</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a schedule date.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   style="background-color: lightgray;pointer-events: none"
+                                   class="form-input form-control"
+                                   th:value="${interviewSchedule.recruiter.fullName}"
+                                   readonly
+                                   required/>
+                            <label class="form-lb form-lb-recruiter" for="recruiterId">Recruiter</label>
+                            <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"
+                               style="font-size: 12px"></i>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a recruiter.
+                            </div>
+                            <input type="hidden"
+                                   name="recruiterId"
+                                   id="recruiterId"
+                                   th:value="${interviewSchedule.recruiter.id}">
+                        </div>
+                    </div>
+                    <div class="user-form-right">
+                        <div class="form-field mb-4">
+                            <select class="form-input form-control"
+                                    id="interviewId"
+                                    name="interviewId"
+                                    required
+                                    multiple>
+                                <option th:each="u : ${users}"
+                                        th:utext="${u.fullName}"
+                                        th:if="${u.account.role.name() == 'ROLE_INTERVIEW'}"
+                                        th:selected="${ids.containsAll(u.id)}"
+                                        th:value="${u.id}"></option>
+                            </select>
+                            <label class="form-lb form-lb-skills" for="interviewId"> Assignee</label>
+                            <ion-icon class="form-icon" name="people-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose Assignee.
+                            </div>
+                        </div>
+
+                        <div class="form-field mb-4">
+                            <select class="form-select-ct form-control pe-0"
+                                    id="location"
+                                    name="location"
+                                    required>
+                                <option th:selected="${!interviewSchedule.location}"
+                                        th:value="${false}">Offline
+                                </option>
+                                <option th:selected="${interviewSchedule.location}" th:value="${true}">Online</option>
+                            </select>
+                            <label class="form-lb form-lb-location" for="location">Location</label>
+                            <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"
+                               style="font-size: 12px"></i>
+                            <ion-icon class="form-icon" name="bag-outline"></ion-icon>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input class="form-input  form-control"
+                                   id="meeting"
+                                   name="meeting"
+                                   placeholder=" "
+                                   th:value="${interviewSchedule.meeting}"
+                                   required/>
+                            <label class="form-lb" for="meeting"> Meeting</label>
+                            <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter meeting.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <textarea class="textarea-input form-control"
+                                      name="note"
+                                      id="note"
+                                      placeholder=" "
+                                      th:utext="${interviewSchedule.note}"></textarea>
+                            <label class="form-lb" for="note"> Notes</label>
+                            <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter description.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="status" value="OPEN">
+                <div class="d-flex justify-content-center mt-4">
+                    <input type="submit" value="Save" class="btn btn-custom btn-outline-primary me-5">
+                    <a th:href="@{/admin/interview/}" role="button"
+                       class="btn btn-custom btn-outline-secondary">
+                        Back
+                    </a>
+                </div>
+            </form>
+        </section>
+    </div>
+    <script th:src="@{/js/common-add.js}"></script>
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</div>
+</body>
+</html>

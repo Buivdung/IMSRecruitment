@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/common-add.css}" rel="stylesheet">
+    <link th:href="@{/css/choices.css}" rel="stylesheet">
+    <script th:src="@{/js/choices.js}"></script>
+    <script th:src="@{/js/job.js}"></script>
+
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div>
+        <nav aria-label="breadcrumb" class="my-1">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Edit job</li>
+            </ol>
+        </nav>
+        <section class="p-5 user-container">
+            <div th:if="${message}" class="text-center mb-3">
+                <span th:utext="${message}" class="text-danger"></span>
+            </div>
+            <form th:action="@{/admin/job/edit/{id}(id=${job.id})}"
+                  class="needs-validation"
+                  method="post"
+                  novalidate
+                  th:object="${jobRequest}">
+                <div class="user-form">
+                    <div class="user-form-left">
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   class="form-input form-control"
+                                   id="title"
+                                   name="title"
+                                   placeholder=" "
+                                   th:value="${job.title}"
+                                   required/>
+                            <label class="form-lb" for="title">Job title</label>
+                            <ion-icon class="form-icon" name="newspaper-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a job title.
+                            </div>
+                        </div>
+                        <input type="hidden" id="id" th:value="${job.id}">
+                        <div class="form-field mb-4">
+                            <input class="form-input date form-control"
+                                   id="startDate"
+                                   name="startDate"
+                                   placeholder=" "
+                                   th:value="${job.startDate}"
+                                   required/>
+                            <label class="form-lb" for="startDate"> Start date</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a start date.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input class="form-input date form-control"
+                                   id="endDate"
+                                   th:value="${job.endDate}"
+                                   placeholder=" "
+                                   name="endDate" required/>
+                            <label class="form-lb" for="endDate"> End date</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a end date.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="number"
+                                   class="form-input form-control"
+                                   id="salaryFrom"
+                                   name="salaryFrom"
+                                   placeholder=" "
+                                   th:value="${job.salaryFrom}"
+                                   required/>
+                            <label class="form-lb" for="salaryFrom">Salary from</label>
+                            <ion-icon class="form-icon" name="cash-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a from salary.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="number"
+                                   class="form-input form-control"
+                                   id="salaryTo"
+                                   name="salaryTo"
+                                   placeholder=" "
+                                   th:value="${job.salaryTo}"
+                                   required/>
+                            <label class="form-lb" for="salaryTo">Salary to</label>
+                            <ion-icon class="form-icon" name="cash-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a salary.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   class="form-input form-control"
+                                   id="workingAddress"
+                                   placeholder=" "
+                                   th:value="${job.workingAddress}"
+                                   name="workingAddress"
+                                   required>
+                            <label class="form-lb" for="workingAddress"> Working Address</label>
+                            <ion-icon class="form-icon" name="home-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a working address.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <select class="form-select-ct form-control pe-0" id="level" name="level" required>
+                                <option disabled selected value=""></option>
+                                <option th:each="l :${levels}"
+                                        th:utext="${l.name}"
+                                        th:selected="${job.level.id == l.id}"
+                                        th:value="${l.id}"></option>
+                            </select>
+                            <label class="form-lb form-lb-level" for="level">Level</label>
+                            <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"
+                               style="font-size: 12px"></i>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a level.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-form-right">
+                        <div class="form-field mb-4">
+                            <select class="form-input form-control"
+                                    id="skills"
+                                    name="skills"
+                                    required
+                                    multiple>
+                                <option th:each="s : ${skills}"
+                                        th:utext="${s.name}"
+                                        th:selected="${ skillIds.containsAll(s.id)}"
+                                        th:value="${s.id}"></option>
+                            </select>
+                            <label class="form-lb form-lb-skills" for="skills"> Skill</label>
+                            <ion-icon class="form-icon" name="barbell-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose skills.
+                            </div>
+                        </div>
+
+                        <div class="form-field mb-4">
+                            <textarea class="textarea-input form-control"
+                                      name="qualification"
+                                      id="qualification"
+                                      placeholder=" "
+                                      th:utext="${job.qualification}"
+                                      required></textarea>
+                            <label class="form-lb" for="qualification"> Qualification</label>
+                            <ion-icon class="form-icon" name="beer-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter qualification.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <textarea class="textarea-input form-control"
+                                      name="benefit"
+                                      id="benefit"
+                                      placeholder=" "
+                                      th:utext="${job.benefit}"
+                                      required></textarea>
+                            <label class="form-lb" for="benefit"> Benefit</label>
+                            <ion-icon class="form-icon" name="beer-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter benefit.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <textarea class="textarea-input form-control"
+                                      name="description"
+                                      id="description"
+                                      placeholder=" "
+                                      th:utext="${job.description}"
+                                      required></textarea>
+                            <label class="form-lb" for="description"> Description</label>
+                            <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter description.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <input type="submit" value="Save" class="btn btn-custom btn-outline-primary me-5">
+                    <a th:href="@{/admin/job}" role="button"
+                       class="btn btn-custom btn-outline-secondary">
+                        Back
+                    </a>
+                </div>
+            </form>
+        </section>
+    </div>
+    <script th:src="@{/js/common-add.js}"></script>
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+.form-field  {
+    position: relative;
+}
+.login,
+.forgot{
+    transition: 0.5s ease;
+}
+.logo{
+    color: var(--blue);
+}
+.form-lb {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 21px;
+    user-select: none;
+    color: var(--black2);
+    pointer-events: none;
+    transition: 0.25s ease;
+}
+
+.form-input {
+    width: 100%;
+    height: 50px;
+    outline-color: green;
+    padding: 0 20px;
+    border: 1px solid #00BCD4FF;
+    border-radius: 4px;
+}
+
+.form-input:focus {
+    outline: none;
+}
+
+
+.form-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 30px;
+    user-select: none;
+    color: var(--black2);
+    transition: 0.25s ease;
+}
+
+.form-input:not(:placeholder-shown) + .form-lb,
+.form-input:focus + .form-lb {
+    color: #00BCD4FF;
+    top: 0;
+    background-color: white;
+    padding: 0 5px;
+    left: 17px;
+}

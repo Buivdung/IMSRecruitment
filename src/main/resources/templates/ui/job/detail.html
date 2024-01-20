@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/common-detail.css}" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div>
+        <nav aria-label="breadcrumb" class="my-1">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Job detail</li>
+            </ol>
+        </nav>
+        <section class="p-3 user-container">
+            <div th:if="${message}" class="text-center">
+                <span th:utext="${message}" class="text-danger"></span>
+            </div>
+            <div class="field-details">
+                <div class="form-field">
+                    <div class="form-input d-flex align-items-center">
+                        <span th:utext="${job.title}"></span>
+                    </div>
+                    <label class="form-lb">Job title</label>
+                    <ion-icon class="form-icon" name="newspaper-outline"></ion-icon>
+                </div>
+                <div class="user-form">
+                    <div class="user-form-left">
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${job.startDate}"></span>
+                            </div>
+                            <label class="form-lb" > Start date</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${job.endDate}"></span>
+                            </div>
+                            <label class="form-lb"> End date</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${job.salaryFrom}"></span>
+                            </div>
+                            <label class="form-lb" >Salary from</label>
+                            <ion-icon class="form-icon" name="cash-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${job.salaryTo}"></span>
+                            </div>
+                            <label class="form-lb">Salary to</label>
+                            <ion-icon class="form-icon" name="cash-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="user-form-right">
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${job.status}"></span>
+                            </div>
+                            <label class="form-lb form-lb-department"> Status</label>
+                            <ion-icon class="form-icon" name="swap-horizontal-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${job.workingAddress}"></span>
+                            </div>
+                            <label class="form-lb"> Working Add</label>
+                            <ion-icon class="form-icon" name="home-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:each=" s,i : ${job.skillJobs}"
+                                      th:if="${i.count == 1}"
+                                      th:utext="${s.skill.name}">
+                                </span>
+                                <span th:each=" s,i : ${job.skillJobs}"
+                                      th:if="${i.count > 1}"
+                                      th:utext="${' , ' + s.skill.name}">
+                                </span>
+                            </div>
+                            <label class="form-lb form-lb-gender"> Skill</label>
+                            <ion-icon class="form-icon" name="barbell-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${job.level.name}"></span>
+                            </div>
+                            <label class="form-lb">Level</label>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="form-input d-flex align-items-center">
+                        <span th:utext="${job.benefit}"></span>
+                    </div>
+                    <label class="form-lb"> Benefit</label>
+                    <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                </div>
+                <div class="form-field">
+                    <div class="form-input d-flex align-items-center">
+                        <span th:utext="${job.qualification}"></span>
+                    </div>
+                    <label class="form-lb" > Qualification</label>
+                    <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                </div>
+                <div class="form-field">
+                    <div class="form-input d-flex align-items-center">
+                        <span th:utext="${job.description}"></span>
+                    </div>
+                    <label class="form-lb" > Description</label>
+                    <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <a th:href="@{/admin/job/edit/{id}(id=${job.id})}" role="button"
+                       class="btn btn-custom btn-outline-primary me-5">
+                        Edit
+                    </a>
+                    <a th:href="@{/admin/job}" role="button"
+                       class="btn btn-custom btn-outline-secondary">
+                        Back
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+</body>
+</html>

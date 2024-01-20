@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}"></th:block>
+    <link th:href="@{/css/login.css}" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+<div class="container-fluid" style="min-height: 100vh; background-color: #feeeec">
+    <div class="text-center pt-5">
+        <h1 style="color: #dd3f24">
+            <a th:href="@{/}" style="text-decoration-line: none">
+                <i class="fa-brands fa-dev " style="color:#dd3f24;"></i>
+                IMS
+            </a>
+        </h1>
+
+        <h5 class="text-secondary">Welcome to IMS</h5>
+    </div>
+    <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-6  shadow rounded p-5 bg-white mt-5">
+            <div class="d-flex justify-content-center ">
+                <p class="col-6 text-center h5 mb-3 pb-3
+                 btn-candidate">Candidate</p>
+                <p class="col-6 text-center h5 mb-3 pb-3
+                 btn-recruiter">Employee</p>
+            </div>
+            <h5 th:utext="${message}" class="text-danger message"></h5>
+            <div class="candidate p-2">
+                <span>Please Login to continue using IMS services</span>
+                <div class="my-3 d-flex align-items-center justify-content-center">
+                    <a th:href="@{/oauth2/authorization/google}"
+                       class="border py-2 px-5 mb-0 text-primary text-decoration-none h5">
+                        <img th:src="@{/image/google.svg}" width="30px" height="30px" alt="">
+                        <span>Login with google</span>
+                    </a>
+                </div>
+                <small>By logging in, you agree to IMS's Terms of Use and Privacy Policy</small>
+            </div>
+            <div class="recruiter p-2">
+                <div class="login text-center">
+                    <form th:action="@{/signIn}" method="post" class="needs-validation" novalidate>
+                        <div class="form-field mt-4 mb-5">
+                            <input type="email"
+                                   class="form-input form-control"
+                                   id="username"
+                                   name="username"
+                                   placeholder=" "
+                                   minlength="6"
+                                   required/>
+                            <label class="form-lb" for="username">Email</label>
+                            <ion-icon class="form-icon" name="mail-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose an email.
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <input type="password"
+                                   class="form-input form-control"
+                                   id="password"
+                                   name="password"
+                                   placeholder=" "
+                                   required/>
+                            <label class="form-lb" for="password">Password</label>
+                            <ion-icon class="form-icon btn-password" name="eye-outline"></ion-icon>
+                            <ion-icon class="form-icon btn-hidePassword" name="eye-off-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a password.
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end w-100 my-4">
+                            <a href="#" class="text-decoration-none btn-forgot">Forgot password ?</a>
+                        </div>
+                        <div class="d-flex justify-content-center w-100">
+                            <input class="btn btn-custom btn-outline-success" type="submit" value="Login">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="forgot">
+                    <form th:action="@{/forgotPassword}" method="post" class="needs-validation" novalidate>
+                        <div class="text-center my-2">
+                            <p>Please enter your email</p>
+                            <p>and we'll send a new password to get back your account</p>
+                        </div>
+                        <div class="form-field">
+                            <input type="email"
+                                   class="form-input form-control"
+                                   id="email"
+                                   name="email"
+                                   placeholder=" "
+                                   required/>
+                            <label class="form-lb" for="password">Email</label>
+                            <ion-icon class="form-icon" name="mail-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute">
+                                Please choose a password.
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end w-100 my-4">
+                            <a href="#" class="text-decoration-none btn-login">Login ?</a>
+                        </div>
+                        <div class="d-flex justify-content-center w-100">
+                            <input class="btn btn-custom btn-outline-success" type="submit" value="Send">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/login.js}"></script>
+<script>
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+</body>
+</html>

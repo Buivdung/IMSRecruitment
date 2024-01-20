@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/common-detail.css}" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div>
+        <nav aria-label="breadcrumb" class="my-1">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Candidate detail</li>
+            </ol>
+        </nav>
+        <section class="p-3 user-container">
+            <div th:if="${message}" class="text-center">
+                <span th:utext="${message}" class="text-danger"></span>
+            </div>
+            <div class="field-details">
+                <div class="user-form">
+                    <div class="user-form-left">
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${candidate.fullName}"></span>
+                            </div>
+                            <label class="form-lb">Full Name</label>
+                            <ion-icon class="form-icon" name="people-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${candidate.email}"></span>
+                            </div>
+                            <label class="form-lb"> Email</label>
+                            <ion-icon class="form-icon" name="mail-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <a th:href="@{/admin/candidate/download/{id}(id=${candidate.id})}"
+                                   th:utext="${candidate.cv}"></a>
+                            </div>
+                            <label class="form-lb"> Cv</label>
+                            <ion-icon class="form-icon" name="attach-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${candidate.phoneNumber}"></span>
+                            </div>
+                            <label class="form-lb">Phone no.</label>
+                            <ion-icon class="form-icon" name="call-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="user-form-right">
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${candidate.status}"></span>
+                            </div>
+                            <label class="form-lb form-lb-department"> Status</label>
+                            <ion-icon class="form-icon" name="swap-horizontal-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${candidate.job.title}"></span>
+                            </div>
+                            <label class="form-lb"> Job apply</label>
+                            <ion-icon class="form-icon" name="bag-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${candidate.mode ? 'Manual' : 'Auto'}"></span>
+                            </div>
+                            <label class="form-lb"> Mode</label>
+                            <ion-icon class="form-icon" name="swap-horizontal-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${candidate.note}"></span>
+                            </div>
+                            <label class="form-lb"> Description</label>
+                            <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <a th:if="${candidate.mode}"
+                   th:href="@{/admin/candidate/edit/{id}(id=${candidate.id})}"
+                   role="button"
+                   class="btn btn-custom btn-outline-secondary me-4">
+                    Edit
+                </a>
+                <a th:href="@{/admin/candidate}" role="button"
+                   class="btn btn-custom btn-outline-secondary">
+                    Back
+                </a>
+            </div>
+        </section>
+    </div>
+</div>
+</body>
+</html>

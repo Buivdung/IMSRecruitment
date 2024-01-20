@@ -1,0 +1,167 @@
+.job-search-result {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    gap: 10px;
+}
+.result-message{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--orange);
+}
+.job {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: 10px;
+    background-color: var(--orange2);
+    border-radius: 3px;
+    padding: 10px;
+    border: 1px solid var(--orange);
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.08);
+    margin-bottom: 10px;
+}
+
+.job .thum {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.job .job-detail .job-title {
+    margin-top: 15px;
+    color: var(--orange);
+    font-size: 25px;
+    width: 100%;
+    font-weight: bold;
+}
+
+.job .job-detail .job-company {
+    margin-top: 15px;
+    color: grey;
+    font-size: 16px;
+    width: 100%;
+    font-weight: bold;
+}
+
+.job .job-detail .job-address {
+    color: darkgray;
+    font-size: 16px;
+    width: 100%;
+
+}
+
+.job .job-detail .job-salary {
+    color: firebrick;
+    font-size: 16px;
+    width: 100%;
+}
+
+.job .job-detail div {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.job .job-detail div ion-icon {
+    color: darkgray;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+/*
+*/
+
+.select-search {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--black3);
+    border-radius: 3px;
+    padding: 10px;
+    height: fit-content;
+}
+
+.select-search button:first-child,
+.select-search select {
+    width: 100%;
+    margin: 10px 0;
+    height: 45px;
+    border: 1px solid var(--orange);
+    border-radius: 3px;
+    outline: var(--orange);
+    text-align: center;
+    background-color: white;
+    font-size: 20px;
+    color: var(--orange);
+    cursor: pointer;
+}
+
+.select-search button:first-child {
+    background-color: var(--orange2);
+}
+.select-search a {
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--black3);
+    padding: 6px;
+    border-radius: 3px;
+}
+.select-search a ion-icon {
+    margin-right: 3px;
+}
+
+
+/**/
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+}
+
+
+.pagination  li{
+    padding: 10px;
+}
+
+.pagination  li a{
+    text-decoration: none;
+}
+.pagination  li a.active{
+    color: var(--orange);
+}
+
+.no-result{
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.no-result span{
+    color: red;
+}
+
+/* ====================== Responsive Design ========================== */
+@media (max-width: 991px) {
+
+}
+
+@media (max-width: 768px) {
+    .select-search {
+        display: flex;
+        flex-direction: row;
+        grid-gap: 10px;
+    }
+    .job-search-result {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+
+}

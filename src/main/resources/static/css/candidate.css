@@ -1,0 +1,5 @@
+#candidateId,
+#note{
+    color: var(--black2);
+    pointer-events: none;
+}

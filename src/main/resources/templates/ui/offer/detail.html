@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/common-detail.css}" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div>
+        <nav aria-label="breadcrumb" class="my-1">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Job detail</li>
+            </ol>
+        </nav>
+        <section class="p-3 user-container">
+            <div th:if="${message}" class="text-center">
+                <span th:utext="${message}" class="text-danger"></span>
+            </div>
+            <div class="field-details">
+
+                <div class="user-form">
+                    <div class="user-form-left">
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.resultInterview.candidate.fullName}"></span>
+                            </div>
+                            <label class="form-lb">Candidate</label>
+                            <ion-icon class="form-icon" name="newspaper-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.position.name()}"></span>
+                            </div>
+                            <label class="form-lb">Position</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.department.name}"></span>
+                            </div>
+                            <label class="form-lb">Department</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.resultInterview.candidate.job.title}"></span>
+                            </div>
+                            <label class="form-lb">Job title</label>
+                            <ion-icon class="form-icon" name="cash-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.status}"></span>
+                            </div>
+                            <label class="form-lb">Status approve</label>
+                            <ion-icon class="form-icon" name="cash-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                  <span style="border: 1px solid grey;
+                                                padding: 0 3px;
+                                                border-radius: 4px;
+                                                margin-right: 3px;
+                                                background-color: grey"
+                                        th:each="i : ${interviewerSchedules}"
+                                        th:utext="${i.interviewer.fullName}">
+                                    </span>
+                            </div>
+                            <label class="form-lb">Interviewer</label>
+                            <ion-icon class="form-icon" name="cash-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.resultInterview.candidate.job.level.name}"></span>
+                            </div>
+                            <label class="form-lb "> Level</label>
+                            <ion-icon class="form-icon" name="swap-horizontal-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.resultInterview.note}"></span>
+                            </div>
+                            <label class="form-lb">Note result</label>
+                            <ion-icon class="form-icon" name="home-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="user-form-right">
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.manager.fullName}"></span>
+                            </div>
+                            <label class="form-lb form-lb-gender"> Manager</label>
+                            <ion-icon class="form-icon" name="barbell-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.recruiter.fullName}"></span>
+                            </div>
+                            <label class="form-lb">Recruiter</label>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.contractType}"></span>
+                            </div>
+                            <label class="form-lb">Contract type</label>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.contractFrom + ' - ' + offer.contractTo}"></span>
+                            </div>
+                            <label class="form-lb">Contract date</label>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.basicSalary}"></span>
+                            </div>
+                            <label class="form-lb">Basic salary</label>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.dueDate}"></span>
+                            </div>
+                            <label class="form-lb">Due date</label>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${offer.notes}"></span>
+                            </div>
+                            <label class="form-lb">Notes</label>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <a th:href="@{/admin/offer/edit/{id}(id=${offer.id})}" role="button"
+                   class="btn btn-custom btn-outline-primary">
+                    Edit
+                </a>
+                <a th:href="@{/admin/offer/approve/{id}(id=${offer.id})}" role="button"
+                   class="btn btn-custom btn-outline-success mx-5">
+                    Result
+                </a>
+                <a th:href="@{/admin/offer}" role="button"
+                   class="btn btn-custom btn-outline-secondary">
+                    Back
+                </a>
+            </div>
+        </section>
+    </div>
+</div>
+</body>
+</html>

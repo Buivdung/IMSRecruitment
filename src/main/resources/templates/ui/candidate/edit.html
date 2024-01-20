@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/common-add.css}" rel="stylesheet">
+    <script th:src="@{/js/candidate.js}"></script>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div>
+        <nav aria-label="breadcrumb" class="my-1">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Create candidate</li>
+            </ol>
+        </nav>
+        <section class="p-5 user-container">
+            <div th:if="${message}" class="text-center mb-3">
+                <span th:utext="${message}" class="text-danger"></span>
+            </div>
+            <form th:action="@{/admin/candidate/edit/{id}(id=${candidate.id})}"
+                  class="needs-validation"
+                  method="post"
+                  enctype="multipart/form-data"
+                  novalidate
+                  th:object="${candidateRequest}">
+                <div class="user-form">
+                    <div class="user-form-left">
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   class="form-input form-control"
+                                   id="fullName"
+                                   name="fullName"
+                                   placeholder=" "
+                                   th:value="${candidate.fullName}"
+                                   required/>
+                            <label class="form-lb" for="fullName">Candidate name</label>
+                            <ion-icon class="form-icon" name="people-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a candidate name.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="Email"
+                                   class="form-input form-control"
+                                   id="Email"
+                                   name="Email"
+                                   placeholder=" "
+                                   th:value="${candidate.email}"
+                                   required/>
+                            <label class="form-lb" for="Email"> Email</label>
+                            <ion-icon class="form-icon" name="mail-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a email.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   class="form-input form-control"
+                                   id="phoneNumber"
+                                   name="phoneNumber"
+                                   placeholder=" "
+                                   th:value="${candidate.phoneNumber}"
+                                   required/>
+                            <label class="form-lb" for="phoneNumber"> Phone no.</label>
+                            <ion-icon class="form-icon" name="call-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a phone number.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-form-right">
+                        <div class="form-field mb-4">
+                            <select class="form-select-ct form-control pe-0" id="jobId" name="jobId" required>
+                                <option disabled selected value=""></option>
+                                <option th:each="j :${jobs}"
+                                        th:utext="${j.title}"
+                                        th:selected="${candidate.job.id != null &&  candidate.job.id == j.id}"
+                                        th:value="${j.id}"></option>
+                            </select>
+                            <label class="form-lb form-lb-level" for="jobId">Job</label>
+                            <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"
+                               style="font-size: 12px"></i>
+                            <ion-icon class="form-icon" name="bag-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a job.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="file"
+                                   style="display: none"
+                                   id="cv"
+                                   name="cv"
+                                   placeholder=" "
+                            />
+                            <label class="form-input form-control form-cv"
+                                   style="padding-top: 12px"
+                                   for="cv"
+                            th:utext="${candidate.cv}"> </label>
+                            <label class="form-lb lb-cv" for="phoneNumber"> Cv</label>
+                            <ion-icon class="form-icon" name="attach-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a Cv.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   class="form-input form-control"
+                                   id="note"
+                                   name="note"
+                                   placeholder=" "
+                                   th:value="${candidate.note}"
+                                   required/>
+                            <label class="form-lb" for="note"> Description</label>
+                            <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a Cv.
+                            </div>
+                        </div>
+                        <input type="hidden"
+                               class="form-input form-control"
+                               id="mode"
+                               name="mode"
+                               th:value="${true}"
+                               required/>
+                    </div>
+                </div>
+                <input type="hidden" name="id" th:value="${candidate.id}">
+                <div class="d-flex justify-content-center mt-4">
+                    <input type="submit" value="Save" class="btn btn-custom btn-outline-primary me-5">
+                    <a th:href="@{/admin/candidate}" role="button"
+                       class="btn btn-custom btn-outline-secondary">
+                        Back
+                    </a>
+                </div>
+            </form>
+        </section>
+    </div>
+    <script th:src="@{/js/common-add.js}"></script>
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</div>
+</body>
+</html>

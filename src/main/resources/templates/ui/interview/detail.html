@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/common-detail.css}" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div>
+        <nav aria-label="breadcrumb" class="my-1">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Candidate detail</li>
+            </ol>
+        </nav>
+        <section class="p-3 user-container">
+            <div th:if="${message}" class="text-center">
+                <span th:utext="${message}" class="text-danger"></span>
+            </div>
+            <div class="field-details">
+                <div class="user-form">
+                    <div class="user-form-left">
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${interviewSchedule.title}"></span>
+                            </div>
+                            <label class="form-lb">Title</label>
+                            <ion-icon class="form-icon" name="document-text-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${interviewSchedule.resultInterviews.get(0).candidate.job.title}"></span>
+                            </div>
+                            <label class="form-lb"> Job title</label>
+                            <ion-icon class="form-icon" name="document-text-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${ 'Có '+interviewSchedule.candidateNumber + ' candiadte'}"></span>
+                                <a th:href="@{/admin/interview/{iId}/candidates(iId=${interviewSchedule.id})}" class="ms-3">
+                                    <ion-icon class="h5 pt-1" name="eye-outline"></ion-icon>
+                                </a>
+                            </div>
+                            <label class="form-lb"> Candidate no.</label>
+                            <ion-icon class="form-icon" name="people-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${interviewSchedule.schedule.toString().replace('T',' - ')}"></span>
+                            </div>
+                            <label class="form-lb">Schedule</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${interviewSchedule.recruiter.fullName}"></span>
+                            </div>
+                            <label class="form-lb form-lb-department"> Recruiter</label>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="user-form-right">
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:each="i,j : ${interviewSchedule.interviewer}"
+                                      th:if="${j.count == 1}"
+                                      th:utext="${i.interviewer.fullName}"></span>
+                                <span th:each="i,j : ${interviewSchedule.interviewer}"
+                                      th:if="${j.count > 1}"
+                                      th:utext="${', ' + i.interviewer.fullName}"></span>
+                            </div>
+                            <label class="form-lb"> Interviewer</label>
+                            <ion-icon class="form-icon" name="people-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${interviewSchedule.location ? 'Offline' : 'Online'}"></span>
+                            </div>
+                            <label class="form-lb"> Location</label>
+                            <ion-icon class="form-icon" name="swap-horizontal-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${interviewSchedule.meeting}"></span>
+                            </div>
+                            <label class="form-lb"> Meeting</label>
+                            <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-input d-flex align-items-center">
+                                <span th:utext="${interviewSchedule.note}"></span>
+                            </div>
+                            <label class="form-lb"> Note</label>
+                            <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <a th:href="@{/admin/interview/edit/{id}(id=${interviewSchedule.id})}"
+                   role="button"
+                   class="btn btn-custom btn-outline-primary me-4">
+                    Edit
+                </a>
+                <a th:href="@{/admin/interview/}" role="button"
+                   class="btn btn-custom btn-outline-secondary">
+                    Back
+                </a>
+            </div>
+        </section>
+    </div>
+</div>
+</body>
+</html>

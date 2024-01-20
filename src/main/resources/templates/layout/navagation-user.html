@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+    <th:block th:replace="~{layout/fragment-user::head}">
+    </th:block>
+    <link th:href="@{/css/navigation-user.css}" rel="stylesheet">
+</head>
+<body>
+<nav class="container-fluid" style="position: sticky; top: 0;z-index: 50;">
+    <div class="navbar">
+        <div class="navbar-header">
+            <div class="navbar-toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+            <a th:href="@{/}" class="navbar-brand">
+                <h1>
+                    <i class="fa-brands fa-dev " style="color:#dd3f24;"></i>
+                    IMS
+                </h1>
+            </a>
+            <div class="navbar-items">
+                <ul>
+                    <li class="dropdown">
+                        <span>Kỹ năng</span>
+                        <ion-icon name="chevron-down-outline"></ion-icon>
+                        <div class="dropdown-content">
+                            <a th:href="@{/search(param=${s.name})}"
+                               class="skills"
+                               th:each="s : ${#ctx.session.skills}"
+                               th:utext="${s.name}"></a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <span>Cấp bậc</span>
+                        <ion-icon name="chevron-down-outline"></ion-icon>
+                        <div class="dropdown-content">
+                            <a th:href="@{/search(level=${l.name})}"
+                               class="levels"
+                               th:each="l : ${#ctx.session.levels}"
+                               th:utext="${l.name}"></a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <span>Địa điểm</span>
+                        <ion-icon name="chevron-down-outline"></ion-icon>
+                        <div class="dropdown-content">
+                            <a th:href="@{/search(address=${a})}"
+                               class="address"
+                               th:each="a : ${#ctx.session.address}"
+                               th:utext="${a}"></a>
+                        </div>
+                    </li>
+                    <li class="login">
+                        <a sec:authorize="!authenticated"
+                           th:href="@{/login}">
+                            <span>Đăng nhập</span>
+                            <ion-icon name="log-in-outline"></ion-icon>
+                        </a>
+                        <div sec:authorize="authenticated">
+                            <ul>
+                                <li class="dropdown">
+                                    <ion-icon class="no-rotate u" name="person-circle-outline"></ion-icon>
+                                    <span th:utext="${#ctx.session.user.fullName}"></span>
+                                    <ion-icon name="chevron-down-outline"></ion-icon>
+                                    <div class="dropdown-content">
+                                        <div></div>
+                                        <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_RECRUITER','ROLE_INTERVIEW','ROLE_MANAGER')"
+                                                th:href="@{/admin/job/}">
+                                            <span>Admin page</span>
+                                        </a>
+                                        <a th:href="@{/logout}">
+                                            <span>Đăng xuất</span>
+                                            <ion-icon class="no-rotate" name="log-out-outline"></ion-icon>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="navbar-left">
+            <button class="btn-close">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <div>
+                <a href="#" class="navbar-brand">
+                    <h1>TopJob</h1>
+                </a>
+                <div class="menu-items-left">
+                    <ul>
+                        <li id="param">
+                            Kỹ năng
+                            <ion-icon name="chevron-forward-outline"></ion-icon>
+                        </li >
+                        <li id="level">
+                            Cấp bậc
+                            <ion-icon name="chevron-forward-outline"></ion-icon>
+                        </li>
+                        <li id="address">
+                            Địa điểm
+                            <ion-icon name="chevron-forward-outline"></ion-icon>
+                        </li>
+                        <li sec:authorize="!authenticated">
+                                <a th:href="@{/login}">
+                                    Đăng Nhập
+                                </a>
+                                <ion-icon name="log-in-outline"></ion-icon>
+                        </li>
+                        <li id="lo" sec:authorize="authenticated">
+                                <a th:href="@{/logout}">
+                                    Đăng xuất
+                                </a>
+                                <ion-icon name="log-out-outline"></ion-icon>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu-items-left">
+                    <span class="item-title"></span>
+                    <ul class="item">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div layout:fragment="content">
+
+</div>
+<div class="container-fluid navbar-footer">
+    <div class="container">
+        <h1>
+            <i class="fa-brands fa-dev " style="color:#dd3f24;"></i>
+            IMS
+        </h1>
+        <p> 94 Lê Thanh Nghị, P.Bạch Mai, Q. Hai Bà Trưng, TP. Hà nội</p>
+        <p>Tel: 0962248930 - dung.bv210752P@sis.hust.edu.vn</p>
+    </div>
+</div>
+<div th:if="${alert}" class="alerts">
+    <h5 th:utext="${alert}"></h5>
+</div>
+<script th:src="@{/js/navigation-user.js}"></script>
+</body>
+</html>

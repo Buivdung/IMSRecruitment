@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/common-list.css}" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="user-container">
+        <div class="">
+            <nav aria-label="breadcrumb" class="my-1">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item" aria-current="page">List candidate of interview schedule</li>
+                </ol>
+            </nav>
+
+            <section class="px-1">
+                <div th:if="${message}" class="text-center">
+                    <span th:utext="${message}" class="text-danger"></span>
+                </div>
+                <div class="user-table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <td style="min-width: 120px">Name</td>
+                            <td style="min-width: 150px">Email</td>
+                            <td style="min-width: 150px">Phone no.</td>
+                            <td style="min-width: 120px">Result</td>
+                            <td style="min-width: 80px">Note</td>
+                            <td style="min-width: 140px" class="text-center">Action</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="i : ${resultInterviews}">
+                            <td><span th:utext="${i.candidate.fullName}"></span></td>
+                            <td><span th:utext="${i.candidate.email}"></span></td>
+                            <td><span th:utext="${i.candidate.phoneNumber}"></span></td>
+                            <td>
+                                <span th:classappend="${
+                                i.result.name() == 'OPEN'
+                                || i.result.name() == 'PASSED_INTERVIEW'
+                                || i.result.name() == 'PASS'
+                                 || i.result.name() == 'ACCEPTED_OFFER' ? 'successStatus' :
+                                 (i.result.name() == 'WAITING_FOR_INTERVIEW' ||
+                                  i.result.name() == 'WAITING_FOR_APPROVAL'||
+                                  i.result.name() == 'WAITING_FOR_RESPONSE' ||
+                                   i.result.name() == 'IN_PROGRESS' ? 'waringStatus' :
+                                   (i.result.name() == 'NA' ?  'primaryStatus' : 'dangerStatus'))}"
+                                      th:utext="${i.result.value}">
+                                </span>
+                            </td>
+                            <td><span th:utext="${i.note}"></span></td>
+                            <td class="text-end" style="width: 160px">
+                                <a th:href="@{/admin/interview/{iId}/result/{cId}
+                                (iId=${resultInterviews.get(0).interviewSchedule.id},cId=${i.id})}"
+                                   class="text-decoration-none text-success h4 mx-3">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </a>
+                                <a href="#"
+                                   role="button"
+                                   th:onclick="'deleteById('+${i.id}+')'"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#deleteById"
+                                   class="text-decoration-none text-danger h4">
+                                    <ion-icon name="trash-outline"
+                                              id="interview"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

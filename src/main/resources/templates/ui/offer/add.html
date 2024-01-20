@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/common-add.css}" rel="stylesheet">
+    <script th:src="@{/js/offer.js}"></script>
+
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div>
+        <nav aria-label="breadcrumb" class="my-1 ">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Create offer</li>
+            </ol>
+        </nav>
+        <section class="p-5 user-container">
+            <div th:if="${message}" class="text-center mb-3">
+                <span th:utext="${message}" class="text-danger"></span>
+            </div>
+            <form th:action="@{/admin/offer/create}"
+                  class="needs-validation"
+                  method="post"
+                  novalidate
+                  th:object="${offerRequest}">
+                <div class="user-form">
+                    <div class="user-form-left">
+                        <div class="form-field mb-4">
+                            <select class="form-select-ct form-control pe-0"
+                                    id="candidateId"
+                                    name="candidateId"
+                                    required>
+                                <option disabled selected value=""></option>
+                                <option th:each="r : ${resultInterview}"
+                                        th:utext="${r.candidate.fullName}"
+                                        th:value="${r.candidate.id}"></option>
+                            </select>
+                            <label class="form-lb form-lb-candidate" for="candidateId">Candidate</label>
+                            <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"
+                               style="font-size: 12px"></i>
+                            <ion-icon class="form-icon" name="bag-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a candidate.
+                            </div>
+                        </div>
+
+                        <div class="form-field mb-4">
+                            <select class="form-select-ct form-control pe-0"
+                                    id="position"
+                                    name="position"
+                                    required>
+                                <option disabled selected value=""></option>
+                                <option value="BACKEND_DEVELOPER"> Backend Developer</option>
+                                <option value="BUSINESS_ANALYST"> Business Analyst</option>
+                                <option value="TESTER"> Tester</option>
+                                <option value="HR"> HR</option>
+                                <option value="PROJECT_MANAGER"> Project manager</option>
+                            </select>
+                            <label class="form-lb form-lb-position" for="position">Position</label>
+                            <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"
+                               style="font-size: 12px"></i>
+                            <ion-icon class="form-icon" name="bag-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a position.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <select class="form-select-ct form-control pe-0"
+                                    id="department"
+                                    name="department"
+                                    required>
+                                <option disabled selected value=""></option>
+                                <option th:each="d: ${departments}"
+                                th:value="${d.id}"
+                                th:utext="${d.name}">
+                                </option>
+                            </select>
+                            <label class="form-lb form-lb-job" for="department">Department</label>
+                            <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"
+                               style="font-size: 12px"></i>
+                            <ion-icon class="form-icon" name="bag-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a department.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   style="background-color: lightgray;pointer-events: none"
+                                   class="form-input form-control"
+                                   id="jobTitle"
+                                   readonly
+                                   value="N/A"
+                                   required/>
+                            <label class="form-lb" for="jobTitle">Job title</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                        </div>
+                        <div class="form-field mb-4">
+                            <div class="form-input form-control d-flex align-items-center"
+                                 style="background-color: lightgray;pointer-events: none"
+                                 id="interviewer">
+                                 N/A
+                            </div>
+                            <label class="form-lb form-lb-skills" > Interviewer</label>
+                            <ion-icon class="form-icon" name="barbell-outline"></ion-icon>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   style="background-color: lightgray;pointer-events: none"
+                                   class="form-input form-control"
+                                   id="level"
+                                   value="N/A"
+                                   readonly
+                                   required/>
+                            <label class="form-lb" for="level">Level</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                        </div>
+                        <div class="form-field mb-4">
+                            <textarea class="textarea-input form-control"
+                                      style="background-color: lightgray;pointer-events: none"
+                                      id="noteInterviewer"
+                                      placeholder=" "
+                            >N/a</textarea>
+                            <label class="form-lb">Note of interviewer</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="user-form-right">
+                        <div class="form-field mb-4">
+                            <select class="form-select-ct form-control pe-0"
+                                    id="manager"
+                                    name="manager"
+                                    required>
+                                <option disabled selected value=""></option>
+                                <option th:each="u :${users}"
+                                th:utext="${u.fullName}"
+                                th:value="${u.id}"
+                                th:if="${u.account.role.name() == 'ROLE_MANAGER'}"></option>
+                            </select>
+                            <label class="form-lb form-lb-job" for="manager">Manager</label>
+                            <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"
+                               style="font-size: 12px"></i>
+                            <ion-icon class="form-icon" name="bag-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a Manager.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <select sec:authorize="hasRole('ROLE_MANAGER')"
+                                    class="form-select-ct form-control pe-0"
+                                    id="recruiter"
+                                    name="recruiter"
+                                    required>
+                                <option disabled selected value=""></option>
+                                <option th:each="u :${users}"
+                                        th:utext="${u.fullName}"
+                                        th:value="${u.id}"
+                                        th:if="${u.account.role.name() == 'ROLE_RECRUITER'}"></option>
+                            </select>
+                            <input class="form-input form-control"
+                                   style="background-color: lightgray"
+                                   sec:authorize="hasRole('ROLE_RECRUITER')"
+                                   th:value="${#ctx.session.user.fullName}"
+                                   readonly
+                                   required/>
+                            <label class="form-lb form-lb-recruiter" for="recruiter">Recruiter</label>
+                            <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"
+                               style="font-size: 12px"></i>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a recruiter.
+                            </div>
+                            <input type="hidden"
+                                   sec:authorize="hasRole('ROLE_RECRUITER')"
+                                   name="recruiter"
+                                   th:value="${#ctx.session.user.id}"
+                                   required/>
+                        </div>
+                        <div class="form-field mb-4">
+                            <select class="form-select-ct form-control pe-0"
+                                    id="contractType"
+                                    name="contractType"
+                                    required>
+                                <option disabled selected value=""></option>
+                                <option value="TRAIL">Trail</option>
+                                <option value="TRAINING">Training</option>
+                                <option  value="ONE_YEAR">One year</option>
+                                <option value="THREE_YEAR">Three year</option>
+                                <option value="UNLIMITED">Unlimited</option>
+                            </select>
+                            <label class="form-lb form-lb-job" for="contractType">Contract Type</label>
+                            <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"
+                               style="font-size: 12px"></i>
+                            <ion-icon class="form-icon" name="bag-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a contract type.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input class="form-input date form-control"
+                                   id="contractFrom"
+                                   name="contractFrom"
+                                   placeholder=" "
+                                   required/>
+                            <label class="form-lb" for="contractFrom"> Contract Start</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a contract Start.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="number"
+                                   inputmode="number"
+                                   class="form-input form-control"
+                                   id="basicSalary"
+                                   name="basicSalary"
+                                   placeholder=" "
+                                   required/>
+                            <label class="form-lb" for="basicSalary">Basic salary</label>
+                            <ion-icon class="form-icon" name="newspaper-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a basic salary.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input class="form-input date form-control"
+                                   id="dueDate"
+                                   name="dueDate"
+                                   placeholder=" "
+                                   required/>
+                            <label class="form-lb" for="dueDate"> Due date</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a due date.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <textarea class="textarea-input form-control"
+                                      name="notes"
+                                      id="notes"
+                                      placeholder=" "
+                            ></textarea>
+                            <label class="form-lb" for="notes"> Notes</label>
+                            <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter description.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <input type="submit" value="Add" class="btn btn-custom btn-outline-primary me-5">
+                    <a th:href="@{/admin/offer/ }" role="button"
+                       class="btn btn-custom btn-outline-secondary">
+                        Back
+                    </a>
+                </div>
+            </form>
+        </section>
+    </div>
+    <script th:src="@{/js/common-add.js}"></script>
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</div>
+</body>
+</html>

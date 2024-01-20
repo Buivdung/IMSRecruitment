@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/common-add.css}" rel="stylesheet">
+    <link th:href="@{/css/choices.css}" rel="stylesheet">
+    <script th:src="@{/js/choices.js}"></script>
+    <script th:src="@{/js/job.js}"></script>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div>
+        <nav aria-label="breadcrumb" class="my-1 ">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Create user</li>
+            </ol>
+        </nav>
+        <section class="p-5 user-container">
+            <div th:if="${message}" class="text-center mb-3">
+                <span th:utext="${message}" class="text-danger"></span>
+            </div>
+            <form th:action="@{/admin/user/create}"
+                  class="needs-validation"
+                  method="post"
+                  novalidate
+                  th:object="${userRequest}">
+                <div class="user-form">
+                    <div class="user-form-left">
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   class="form-input form-control"
+                                   id="fullName"
+                                   name="fullName"
+                                   placeholder=" "
+                                   th:value="${user.fullName}"
+                                   required/>
+                            <label class="form-lb" for="fullName">Full name</label>
+                            <ion-icon class="form-icon" name="person-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a full name.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input class="form-input date form-control"
+                                   id="dob"
+                                   name="dob"
+                                   placeholder=" "
+                                   th:value="${user.dob}"
+                                   required/>
+                            <label class="form-lb" for="dob"> D.O.B</label>
+                            <ion-icon class="form-icon" name="calendar-number-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a date of birth.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input class="form-input form-control"
+                                   id="phoneNumber"
+                                   th:value="${user.phoneNumber}"
+                                   placeholder=" "
+                                   name="phoneNumber"
+                                   type="number"
+                                   required/>
+                            <label class="form-lb" for="phoneNumber"> Phone no.</label>
+                            <ion-icon class="form-icon" name="call-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please enter a phone number.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <select class="form-input form-select-role" id="role" name="role" required>
+                                <option disabled selected></option>
+                                <option th:selected="${user.role != null && user.role.name() == 'ROLE_MANAGER'}"
+                                        value="ROLE_MANAGER">Manager</option>
+                                <option th:selected="${user.role != null && user.role.name() == 'ROLE_RECRUITER'}"
+                                        value="ROLE_RECRUITER">Recruiter</option>
+                                <option th:selected="${user.role != null && user.role.name() == 'ROLE_INTERVIEW'}"
+                                        value="ROLE_INTERVIEW">Interview</option>
+                            </select>
+                            <label class="form-lb form-lb-role" for="role"> Role</label>
+                            <ion-icon class="form-icon" name="finger-print-outline"></ion-icon>
+                            <div class="invalid-feedback position-absolute text-start">
+                                Please choose a role.
+                            </div>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="text" class="form-input" readonly id="v" value="Active" required>
+                            <label class="form-lb form-lb-status" for="v"> Status</label>
+                            <ion-icon class="form-icon" name="swap-horizontal-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="user-form-right">
+                        <div class="form-field mb-4">
+                            <input type="email"
+                                   class="form-input"
+                                   id="email"
+                                   name="email"
+                                   th:value="${user.email}"
+                                   placeholder=" "
+                                   required/>
+                            <label class="form-lb" for="email"> Email</label>
+                            <ion-icon class="form-icon" name="mail-outline"></ion-icon>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   class="form-input"
+                                   id="address"
+                                   th:value="${user.address}"
+                                   name="address"
+                                   placeholder=" "
+                                   required/>
+                            <label class="form-lb" for="address"> Address</label>
+                            <ion-icon class="form-icon" name="home-outline"></ion-icon>
+                        </div>
+                        <div class="form-field mb-4">
+                            <select class="form-input form-select-ct" id="gender" name="gender" required>
+                                <option disabled selected value=""></option>
+                                <option th:selected="${user.gender != null && user.gender.name() == 'MALE'}"
+                                        value="MALE"> Male</option>
+                                <option th:selected="${user.gender != null && user.gender.name() == 'FEMALE'}"
+                                        value="FEMALE"> Female</option>
+                                <option th:selected="${user.gender != null && user.gender.name() == 'OTHER'}"
+                                        value="OTHER"> Other</option>
+                            </select>
+                            <label class="form-lb " for="gender"> Gender</label>
+                            <ion-icon class="form-icon" name="transgender-outline"></ion-icon>
+                        </div>
+                        <div class="form-field mb-4">
+                            <select class="form-input form-select-department" id="department" name="departmentId"
+                                    required>
+                                <option disabled selected></option>
+                                <option th:each="d: ${departments}"
+                                        th:selected="${user.departmentId == d.id}"
+                                        th:utext="${d.name}"
+                                        th:value="${d.id}"
+                                ></option>
+                            </select>
+                            <label class="form-lb form-lb-department" for="department"> Department</label>
+                            <ion-icon class="form-icon" name="desktop-outline"></ion-icon>
+                        </div>
+                        <div class="form-field mb-4">
+                            <input type="text"
+                                   class="form-input"
+                                   id="notes"
+                                   th:value="${user.notes == null ? 'N/A' : user.notes}"
+                                   name="notes"
+                                   value="N/A"/>
+                            <label class="form-lb" for="notes"> Notes</label>
+                            <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <input type="submit" value="Add" class="btn btn-custom btn-outline-primary me-5">
+                    <a th:href="@{/admin/user}" role="button"
+                       class="btn btn-custom btn-outline-secondary">
+                        Back
+                    </a>
+                </div>
+                <input type="checkbox" name="status" id="status" checked>
+            </form>
+        </section>
+    </div>
+    <script th:src="@{/js/common-add.js}"></script>
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</div>
+</body>
+</html>

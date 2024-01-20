@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navagation-user}"
+>
+<head>
+    <link rel="stylesheet" th:href="@{/css/home-user.css}">
+    <link rel="stylesheet" th:href="@{/css/search.css}">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="con-f search-con">
+        <div class="con">
+            <div class="job-search">
+                <div>
+                    <span class="search-title">
+                        Tìm kiếm
+                        <span> PHP</span>
+                    </span>
+                </div>
+                <form th:action="@{/search}" method="get" class="form-search">
+                    <input type="text"
+                           th:value="${jobResponse.param}"
+                           class="search-input"
+                           name="param"
+                           id="p"
+                           placeholder="Tìm kiếm theo kỹ năng, vị trí, ...">
+                    <button class="btn-search">
+                        Tìm kiếm
+                        <ion-icon name="search-outline"></ion-icon>
+                    </button>
+                </form>
+                <div class="search-propose">
+                    <span>Tìm kiếm phổ biến:</span>
+                    <a th:href="@{/search(param=${s.name})}" class="btn-search-propose"
+                       th:each="s : ${#ctx.session.skills}"
+                       th:utext="${s.name}">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="con-f">
+        <div class="con">
+            <div class="result-message" >
+                <span th:utext="${'Có ' + jobs.totalElements + ' kết quả được tìm thấy'}"></span>
+            </div>
+            <div class="job-search-result">
+                <div class="select-search">
+                    <button id="filter">
+                        Lọc
+                    </button>
+                    <select name="level" id="l">
+                        <option selected value="">-- Level --</option>
+                        <option th:each=" l : ${#ctx.session.levels}"
+                                th:utext="${l.name}"
+                                th:value="${l.name}"
+                                th:selected="${l.name == jobResponse.level}"></option>
+                    </select>
+                    <select name="address" id="a">
+                        <option selected value="">-- Address --</option>
+                        <option th:each=" a : ${#ctx.session.address}"
+                                th:utext="${a}"
+                                th:value="${a}"
+                                th:selected="${a == jobResponse.address}"></option>
+                    </select>
+                    <a th:href="@{/search(param=${jobResponse.param})}">
+                        <ion-icon name="close-circle-outline"></ion-icon>
+                        Bỏ lọc
+                    </a>
+                </div>
+                <div class="job-result">
+                    <div class="job" th:each="j : ${jobs}">
+                        <div class="thum">
+                            <img th:src="@{/image/logo.PNG}" alt="" width="80px" height="80px">
+                        </div>
+                        <div class="job-detail">
+                            <a th:with="href=${'/job-detail/' + j.id }"
+                               th:attr="onclick=${'window.open(''' + href + ''' )'}"
+                               class="job-title" th:utext="${j.title}"></a>
+                            <h6 class="job-company">IMS</h6>
+                            <div>
+                                <ion-icon name="location-outline"></ion-icon>
+                                <p class="job-address" th:utext="${j.workingAddress}"></p>
+                            </div>
+                            <div>
+                                <ion-icon name="cash-outline"></ion-icon>
+                                <p sec:authorize="authenticated"
+                                   class="job-salary" th:utext="${'$' + j.salaryFrom + ' - $' + j.salaryTo}"></p>
+                                <a sec:authorize="!authenticated"
+                                   th:href="@{/login}" class="job-salary">Đăng nhập để xem chi tiết lương</a>
+                            </div>
+                            <div class="">
+                                <a href="#"
+                                   class="detail-skill"
+                                   th:each="s : ${j.skillJobs}"
+                                   th:utext="${s.skill.name}"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav th:if="${jobs.totalElements > 0}"
+                         aria-label="Page"
+                         class="mt-4">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link"
+                                   th:with="pageNumber=${jobResponse.pageNumber > 1 ?
+                                   jobResponse.pageNumber - 1 : 1}"
+                                   th:href="@{/search(
+                                   pageNumber=${pageNumber},
+                                   param=${jobResponse.param},
+                                   address=${jobResponse.address},
+                                   level=${jobResponse.level}
+                                   )}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a></li>
+                            <li class="page-item me-1" th:each="p,i : ${jobResponse.pageMaxNumber}">
+                                <a class="page-link"
+                                   th:href="@{/search(
+                                   pageNumber=${i.count},
+                                   param=${jobResponse.param},
+                                   address=${jobResponse.address},
+                                   level=${jobResponse.level}
+                                   )}"
+                                   th:classappend="${i.count == jobResponse.pageNumber ?
+                                    'active' : ''}"
+                                   th:utext="${i.count}"></a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   th:with="pageNumber=${jobResponse.pageNumber < jobResponse.pageMaxNumber.size() ?
+                                   jobResponse.pageNumber + 1 : jobResponse.pageMaxNumber.size()}"
+                                   th:href="@{/search(
+                                   pageNumber=${pageNumber},
+                                   param=${jobResponse.param},
+                                   address=${jobResponse.address},
+                                   level=${jobResponse.level}
+                                   )}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script th:src="@{/js/home-user.js}"></script>
+    <script th:src="@{/js/search.js}"></script>
+</div>
+</body>
+</html>

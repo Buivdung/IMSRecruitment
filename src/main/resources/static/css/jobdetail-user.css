@@ -1,0 +1,244 @@
+.job {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: 10px;
+    background-color: var(--color);
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.08);
+}
+
+.job .thum {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.job .job-detail .job-title {
+    margin-top: 15px;
+    color: var(--black1);
+    font-size: 25px;
+    width: 100%;
+    font-weight: bold;
+}
+
+.job .job-detail .job-company {
+    margin-top: 15px;
+    color: var(--black2);
+    font-size: 16px;
+    width: 100%;
+    font-weight: bold;
+}
+
+.job .job-detail .job-address {
+    color: var(--black2);
+    font-size: 16px;
+    width: 100%;
+}
+
+.job .job-detail .job-salary {
+    color: firebrick;
+    font-size: 16px;
+    width: 100%;
+}
+
+.job .job-detail div {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.job .job-detail div ion-icon {
+    color: darkgray;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+/* */
+.job-body {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 10px;
+}
+
+.job-description {
+    background-color: var(--color);
+    border-radius: 3px;
+    padding: 30px;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.08);
+}
+
+.job-description .job-description_title {
+    display: flex;
+    justify-content: center;
+    color: red;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--orange);
+}
+
+.job-description .job-responsibilities,
+.job-description .job-qualifications,
+.job-description .job-benefits {
+    border-bottom: 1px solid #f8f6f6;
+    padding: 15px;
+}
+
+.job-description ul {
+    list-style-type: circle;
+    margin-left: 50px;
+    line-height: 25px;
+}
+
+.job-description .job-responsibilities p,
+.job-description .job-qualifications p,
+.job-description .job-benefits p {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.apply button {
+    width: 100%;
+    background-color: var(--orange);
+    color: white;
+    padding: 15px 0;
+    border: 1px solid var(--orange);
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.apply button:hover {
+    background-color: var(--color);
+    color: var(--orange);
+}
+
+.apply .general {
+    margin-top: 15px;
+    background-color: var(--color);
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.08);
+}
+
+.apply .general .general-title {
+    border-bottom: 1px solid greenyellow;
+    padding: 15px 2px;
+    font-weight: bold;
+    color: lightseagreen;
+}
+
+.apply .general div p {
+    padding: 15px 2px;
+    font-weight: bold;
+}
+
+/*modal*/
+
+.modal-bg {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: none;
+}
+.modal-bg.active {
+    display: block;
+}
+.modal-bg .modal-apply {
+    position: absolute;
+    margin: 15px 0;
+    background-color: var(--color);
+    border-radius: 3px;
+    height: fit-content;
+    width: 50%;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.03);
+    padding: 10px 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.modal-bg .modal-apply p {
+    padding: 30px 20px 20px 30px;
+    border-bottom: 2px solid grey;
+}
+
+.modal-bg .modal-apply .modal-apply-close {
+    float: right;
+    border: none;
+    background-color: transparent;
+    margin-top: 15px;
+    margin-right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.modal-bg .modal-apply .modal-apply-close:hover {
+    color: var(--orange);
+}
+
+.modal-bg .modal-apply form {
+    padding: 30px;
+}
+
+.modal-bg .modal-apply div {
+    display: flex;
+    margin-bottom: 25px;
+    align-items: center;
+}
+
+.modal-bg .modal-apply form label {
+    display: inline-block;
+    min-width: 100px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.modal-bg .modal-apply form input{
+    height: 45px;
+    padding: 15px;
+    width: 100%;
+    border: 1px solid var(--orange2);
+    border-radius: 4px;
+    outline: var(--orange2) ;
+}
+
+.modal-bg .modal-apply form textarea{
+    margin-top: 10px;
+    padding: 15px;
+    width: 100%;
+    border: 1px solid var(--orange2);
+    border-radius: 4px;
+    outline: var(--orange2) ;
+}
+.modal-bg .modal-apply form div:last-child{
+    justify-content: end;
+}
+.modal-bg .modal-apply form div:last-child button{
+    padding: 8px 15px;
+    min-width: 85px;
+    color: var(--orange);
+    border: 1px solid var(--orange);
+    background-color: white;
+    margin-right: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.modal-bg .modal-apply form div:last-child button:hover{
+    color: white;
+    background-color: var(--orange);
+}
+.cv{
+    position: relative;
+}
+small{
+    position: absolute;
+    margin-left: 100px;
+    top :110%;
+    color: var(--black2);
+}

@@ -1,0 +1,318 @@
+.con-f {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.search-con {
+    background-image: url(../image/bg-search.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50%;
+    padding: 30px 0;
+}
+
+.con {
+    width: 80%;
+    padding: 30px 0;
+}
+
+.search-title {
+    font-size: 24px;
+    font-weight: 600;
+    padding: 0 30px;
+    text-align: start;
+    display: flex;
+    align-items: center;
+}
+
+.search-title span {
+    padding: 3px 5px;
+    margin-left: 5px;
+    border-radius: 3px;
+    background-color: var(--orange);
+    color: var(--color);
+}
+
+.form-search {
+    position: relative;
+}
+
+.search-input {
+    margin: 20px 0;
+    padding: 20px 30px;
+    border-radius: 3px;
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.btn-search {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    padding: 10px 20px;
+    color: var(--color);
+    background-color: var(--orange);
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-search ion-icon {
+    margin-left: 5px;
+}
+
+.btn-search:hover {
+    opacity: 0.7;
+}
+
+.search-propose .btn-search-propose {
+    padding: 3px 10px;
+    margin-right: 5px;
+    border: 1px solid var(--orange);
+    text-decoration: none;
+    color: var(--orange);
+    background-color: white;
+    border-radius: 3px;
+}
+.search-propose .btn-search-propose:hover {
+
+    background-color: var(--orange);
+    color: white;
+}
+/* new job */
+
+.new-job {
+    background-color: white;
+}
+
+.job-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.job-details .job-detail {
+    padding: 20px;
+    overflow: hidden;
+    border: 1px solid var(--orange);
+    background-color: var(--color);
+    border-radius: 2px;
+}
+
+.job-details .job-detail img {
+    border: 1px solid var(--orange);
+    border-radius: 3px;
+}
+.job-details .job-detail a {
+   text-decoration: none;
+}
+
+.job-details .job-detail:hover {
+    background-color: var(--orange2);
+}
+
+.job-detail .detail-title {
+    margin-top: 15px;
+    color: var(--orange);
+    font-size: 20px;
+    width: 100%;
+    font-weight: bold;
+    max-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    cursor: pointer;
+}
+.job-details .job-detail .detail-title:hover {
+    color: yellowgreen;
+}
+.job-detail .detail-title-sub {
+    color: var(--black2);
+    margin-top: 15px;
+    font-size: 14px;
+}
+.job-detail ion-icon{
+    color: darkgray;
+    font-size: 20px;
+}
+.job-detail .detail-address {
+    color: var(--black1);
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.job-detail .detail-salary {
+    color: red;
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.job-detail div {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.job-detail .detail-skill {
+    color: blue;
+    background-color: rgb(67, 167, 239);
+    margin-top: 10px;
+    font-size: 14px;
+    padding: 3px 5px;
+    border-radius: 2px;
+    width: fit-content;
+    margin-right: 3px;
+}
+.job-detail .detail-skill:hover {
+    background-color: blue;
+    color: rgb(67, 167, 239);
+}
+/* old jobs */
+
+.old-jobs {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--color);
+    border-radius: 3px;
+    border: 1px solid transparent;
+    margin-bottom: 10px;
+}
+
+.old-jobs:hover {
+    border: 1px solid greenyellow;
+    background-color: #dcf6b5;
+}
+
+.old-jobs_left {
+    display: flex;
+    justify-items: center;
+}
+
+.old-jobs_left .thum {
+    margin-right: 15px;
+}
+
+.old-jobs_left .thum img {
+    border: 1px solid var(--orange);
+    border-radius: 3px;
+}
+
+.old-jobs_left .old-job_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.old-jobs .old-jobs_left .old-job_content h4 {
+    text-decoration: none;
+    font-size: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    cursor: pointer;
+    color: var(--orange);
+}
+.old-jobs:hover .old-jobs_left .old-job_content h4{
+    color: yellowgreen;
+}
+.old-jobs_left .old-job_content .links_locat {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.old-jobs_left .old-job_content .links_locat .date {
+    display: flex;
+    align-items: center;
+    color: var(--black2);
+
+}
+.old-jobs_left .old-job_content .links_locat .location {
+    display: flex;
+    align-items: center;
+    color: var(--black2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    margin: 8px 0;
+}
+
+.old-jobs_right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.old-jobs_right .apply_now a {
+    border: 1px solid var(--orange);
+    border-radius: 2px;
+    padding: 5px 10px;
+    color: var(--orange);
+    text-decoration: none;
+}
+
+.old-jobs_right .apply_now:hover a {
+    background-color: var(--orange);
+    color: var(--color);
+}
+
+
+
+/* ====================== Responsive Design ========================== */
+@media (max-width: 991px) {
+    .con {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .job-details {
+        gap: 5px;
+    }
+
+    .old-jobs_left .old-job_content a {
+        max-width: 510px;
+    }
+}
+
+@media (max-width: 768px) {
+    .job-details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .old-jobs_left .old-job_content a {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .job-details {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .old-jobs {
+        flex-direction: column;
+    }
+
+    .old-jobs_right {
+        flex-direction: row-reverse;
+        margin-top: 5px;
+    }
+}

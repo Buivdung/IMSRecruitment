@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navagation-user}"
+>
+<head>
+    <link rel="stylesheet" th:href="@{/css/home-user.css}">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="con-f search-con">
+        <div class="con">
+            <div class="job-search">
+                <div>
+                    <span class="search-title">
+                        Tìm kiếm
+                        <span> PHP</span>
+                    </span>
+                </div>
+                <form action="" class="form-search">
+                    <input type="text" class="search-input" placeholder="Tìm kiếm theo kỹ năng, vị trí, ...">
+                    <button class="btn-search">
+                        Tìm kiếm
+                        <ion-icon name="search-outline"></ion-icon>
+                    </button>
+                </form>
+                <div class="search-propose">
+<!--                    <p>✨ Tìm kiếm phổ biến:</p> <br>-->
+                    <span>✨ Tìm kiếm phổ biến:</span>
+                    <a th:href="@{/search(param=${s.name})}" class="btn-search-propose"
+                       th:each="s : ${#ctx.session.skills}"
+                       th:utext="${s.name}">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="con-f new-job">
+        <div class="con">
+            <h1> 🔥   Công việc mới nhất</h1>
+            <br>
+
+            <div class="job-details">
+                <div th:each="j : ${jobs}" class="job-detail">
+                    <a th:href="@{/job-detail/{id}(id=${j.id})}">
+
+                        <img th:src="@{/image/logo.PNG}" alt="" width="60px" height="60px">
+                        <h4 th:with="href=${'/job-detail/' + j.id }"
+                            th:attr="onclick=${'window.open(''' + href + ''' )'}"
+                            class="detail-title"
+                            th:utext="${j.title}"></h4>
+                        <h6 class="detail-title-sub"
+                        >IMS</h6>
+                        <div>
+                            <ion-icon name="location-outline"></ion-icon>
+                            <p class="detail-address" th:utext="${j.workingAddress}"></p>
+                        </div>
+                        <div>
+                            <ion-icon name="cash-outline"></ion-icon>
+                            <p sec:authorize="authenticated"
+                               class="detail-salary" th:utext="${'$' + j.salaryFrom + ' - $' + j.salaryTo}"></p>
+                            <a th:href="@{/login}"  sec:authorize="!authenticated"
+                               class="detail-salary">Đăng nhập để xem chi tiết lương</a>
+                        </div>
+                        <div class="">
+                            <a th:href="@{/search(param=${s.skill.name})}"
+                               class="detail-skill"
+                               th:each="s : ${j.skillJobs}"
+                               th:utext="${s.skill.name}"></a>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="con-f " style="background: linear-gradient(295.89deg,#ff4b2d -101.99%,#fffdf9 102.52%);">
+        <div class="con">
+            <h1> ☀️ Công việc phổ biến</h1>
+            <br>
+            <div class="old-jobs" th:each=" j :  ${jobs}">
+                <div class="old-jobs_left">
+                    <div class="thum">
+                        <img th:src="@{/image/logo.PNG}" alt="" width="60px" height="60px">
+                    </div>
+                    <div class="old-job_content">
+                        <h4 th:with="href=${'/job-detail/' + j.id }"
+                            th:attr="onclick=${'window.open(''' + href + ''' )'}"
+                            th:utext="${j.title}"></h4>
+                        <div class="links_locat">
+                            <div class="location">
+                                <i class="fa fa-map-marker" style="margin-right: 5px"></i>
+                                <span th:utext="${j.workingAddress}"> </span>
+                            </div>
+                            <div class="date">
+                                <ion-icon name="calendar-number-outline" style="margin-right: 5px"></ion-icon>
+                                <p th:utext=" ${'Date line : ' + j.endDate}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="old-jobs_right">
+                    <div class="apply_now">
+                        <a th:href="@{/job-detail/{id}(id=${j.id})}">Xem</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/home-user.js}"></script>
+</div>
+</body>
+</html>

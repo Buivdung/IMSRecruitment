@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/common-list.css}" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="user-container">
+        <div class="">
+            <nav aria-label="breadcrumb" class="my-1">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item" aria-current="page">List candidate</li>
+                </ol>
+            </nav>
+            <section class="mb-2">
+                <div class="user-search px-1">
+                    <form th:action="@{/admin/candidate}" class="form-search">
+                        <div class="mx-lg-4">
+                            <input class="input-search w-100"
+                                   type="text"
+                                   id="param"
+                                   name="param"
+                                   th:value="${searchResponse.param}"
+                                   placeholder="Search"/>
+                            <button class="submit-search">
+                                <ion-icon name="search-outline"
+                                          class="h5 m-0 ps-2 pe-3 pt-1 text-white">
+                                </ion-icon>
+                            </button>
+                        </div>
+                        <select name="status" class="input-search  my-3 my-lg-0 me-lg-3">
+                            <option selected value="">-- status --</option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'OPEN'}"
+                                    value="OPEN">Open
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'CLOSE'}"
+                                    value="CLOSE">Close
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                            searchResponse.status.name() == 'WAITING_FOR_INTERVIEW'}"
+                                    value="WAITING_FOR_INTERVIEW"> Waiting for interview
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                            searchResponse.status.name() == 'IN_PROGRESS'}"
+                                    value="IN_PROGRESS"> In-progress
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'CANCELED_INTERVIEW'}"
+                                    value="CANCELED_INTERVIEW">Cancelled interview
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'PASSED_INTERVIEW'}"
+                                    value="PASSED_INTERVIEW">Passed Interview
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'FAILED_INTERVIEW'}"
+                                    value="FAILED_INTERVIEW">Failed interview
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'WAITING_FOR_APPROVAL'}"
+                                    value="WAITING_FOR_APPROVAL">Waiting for approval
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'APPROVED_OFFER'}"
+                                    value="APPROVED_OFFER">Approved offer
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                            searchResponse.status.name() == 'REJECTED_OFFER'}"
+                                    value="REJECTED_OFFER">Rejected offer
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'WAITING_FOR_RESPONSE'}"
+                                    value="WAITING_FOR_RESPONSE">Waiting for response
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'ACCEPTED_OFFER'}"
+                                    value="ACCEPTED_OFFER">Accepted offer
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'DECLINED_OFFER'}"
+                                    value="DECLINED_OFFER"> Declined offer
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'CANCELED_OFFER'}"
+                                    value="CANCELED_OFFER">Cancelled offer
+                            </option>
+                            <option th:selected="${searchResponse.status != null &&
+                             searchResponse.status.name() == 'BANNED'}"
+                                    value="BANNED">Banned
+                            </option>
+                        </select>
+                    </form>
+                    <div sec:authorize="hasAnyRole('ROLE_RECRUITER','ROLE_MANAGER')" class="add">
+                        <a th:href="@{/admin/candidate/create}">
+                            <ion-icon name="add-circle-outline" class="h3 mx-4"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <section class="px-1">
+                <div th:if="${message}" class="text-center">
+                    <span th:utext="${message}" class="text-danger"></span>
+                </div>
+                <div class="user-table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <td style="min-width: 180px">Name</td>
+                            <td style="min-width: 150px">Email</td>
+                            <td style="min-width: 120px">Phone no.</td>
+                            <td style="min-width: 120px">Apply date</td>
+                            <td style="min-width: 120px">Apply mode</td>
+                            <td style="min-width: 175px">Status</td>
+                            <td style="min-width: 140px" class="text-center">Action</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="c : ${candidates}">
+                            <td><span th:utext="${c.fullName}"></span></td>
+                            <td><span th:utext="${c.email}"></span></td>
+                            <td><span th:utext="${c.phoneNumber}"></span></td>
+                            <td class="text-center"><span th:utext="${c.createDate}"></span></td>
+                            <td class="text-center">
+                                <span th:classappend="${c.mode ? 'successStatus' : 'waringStatus'}"
+                                        th:utext="${c.mode ? 'Manual': 'Auto'}"></span>
+                            </td>
+                            <td>
+                                <span th:classappend="${
+                                c.status.name() == 'OPEN'
+                                || c.status.name() == 'PASSED_INTERVIEW'
+                                 || c.status.name() == 'ACCEPTED_OFFER' ? 'successStatus' :
+                                 (c.status.name() == 'WAITING_FOR_INTERVIEW' ||
+                                  c.status.name() == 'WAITING_FOR_APPROVAL'||
+                                  c.status.name() == 'WAITING_FOR_RESPONSE' ||
+                                   c.status.name() == 'IN_PROGRESS' ? 'waringStatus' : 'dangerStatus')}"
+                                      th:utext="${c.status.value}">
+                                </span>
+                            </td>
+                            <td class="text-end" style="width: 160px">
+                                <a th:if="${c.mode}"
+                                        th:href="@{/admin/candidate/edit/{id}(id=${c.id})}"
+                                   class="text-decoration-none text-warning h4 ">
+                                    <ion-icon name="create-outline"></ion-icon>
+                                </a>
+                                <a th:href="@{/admin/candidate/{id}(id=${c.id})}"
+                                   class="text-decoration-none text-success h4 mx-3">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </a>
+                                <a href="#"
+                                   role="button"
+                                   th:onclick="'deleteById('+${c.id}+')'"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#deleteById"
+                                   class="text-decoration-none text-danger h4">
+                                    <ion-icon name="trash-outline"
+                                              id="candidate"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-between align-items-center mx-5">
+                        <div class="my-3">
+                            <span class="h5 me-5 text-primary"
+                                  th:utext="${'Total: ' + candidates.totalElements + ' rows'}">
+                            </span>
+                            <span class="h5 text-danger"
+                                  th:if="${candidates.totalElements  == 0}"
+                            >
+                                Don't find job
+                            </span>
+                        </div>
+                        <nav th:if="${candidates.totalElements > 0}"
+                             aria-label="Page navigation example"
+                             class="mt-4">
+                            <ul class="pagination d-flex justify-content-center">
+                                <li></li>
+                                <li class="page-item me-1">
+                                    <a class="page-link"
+                                       th:with="pageNumber=${searchResponse.pageNumber > 1 ?
+                                   searchResponse.pageNumber - 1 : 1}"
+                                       th:href="@{/admin/candidate/(
+                                   pageNumber=${pageNumber},
+                                   param=${searchResponse.param},
+                                   status=${searchResponse.status}
+                                   )}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a></li>
+                                <li class="page-item me-1" th:each="p,i : ${searchResponse.pageMaxNumber}">
+                                    <a class="page-link"
+                                       th:href="@{/admin/candidate/(
+                                   pageNumber=${i.count},
+                                   param=${searchResponse.param},
+                                   status=${searchResponse.status}
+                                   )}"
+                                       th:classappend="${i.count == searchResponse.pageNumber ?
+                                    'bg-primary text-white' : ''}"
+                                       th:utext="${i.count}"></a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       th:with="pageNumber=${searchResponse.pageNumber < searchResponse.pageMaxNumber.size() ?
+                                   searchResponse.pageNumber + 1 : searchResponse.pageMaxNumber.size()}"
+                                       th:href="@{/admin/candidate/(
+                                   pageNumber=${pageNumber},
+                                   param=${searchResponse.param},
+                                   status=${searchResponse.status}
+                                   )}"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                <li></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+</body>
+</html>

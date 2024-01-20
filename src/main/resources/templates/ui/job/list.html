@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/navigation}"
+>
+<head>
+    <th:block th:replace="~{layout/fragment::head}">
+    </th:block>
+    <link th:href="@{/css/common-list.css}" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="user-container">
+        <div class="">
+            <nav aria-label="breadcrumb" class="my-1">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item" aria-current="page">List job</li>
+                </ol>
+            </nav>
+            <section class="mb-2">
+                <div class="user-search px-1">
+                    <form th:action="@{/admin/job}" class="form-search">
+                        <div class="mx-lg-4">
+                            <input class="input-search w-100"
+                                   type="text"
+                                   id="param"
+                                   name="param"
+                                   th:value="${searchResponse.param}"
+                                   placeholder="Search"/>
+                            <button class="submit-search">
+                                <ion-icon name="search-outline"
+                                          class="h5 m-0 ps-2 pe-3 pt-1 text-white">
+                                </ion-icon>
+                            </button>
+                        </div>
+                        <select name="status" class="input-search  my-3 my-lg-0">
+                            <option selected value="">-- status --</option>
+                            <option th:selected="${searchResponse.status != null && searchResponse.status.name() == 'OPEN'}"
+                                    value="OPEN">Open</option>
+                            <option th:selected="${searchResponse.status != null && searchResponse.status.name() == 'CLOSE'}"
+                                    value="CLOSE">Close</option>
+                        </select>
+                    </form>
+                    <div  sec:authorize="hasAnyRole('ROLE_RECRUITER','ROLE_MANAGER')" class="add">
+                        <a href="#" role="button"
+                           data-bs-toggle="modal"
+                           data-bs-target="#exampleModal">
+                            <ion-icon name="cloud-upload-outline"
+                                      class="h3"></ion-icon>
+                        </a>
+                        <a th:href="@{/admin/job/create}">
+                            <ion-icon name="add-circle-outline" class="h3 mx-4"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <section class="px-1">
+                <div th:if="${message}" class="text-center">
+                    <span th:utext="${message}" class="text-danger"></span>
+                </div>
+                <div class="user-table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <td style="min-width: 180px">Job title</td>
+                            <td style="min-width: 150px">Required skill</td>
+                            <td style="min-width: 120px">Apply total</td>
+                            <td style="min-width: 120px">Interviewed</td>
+                            <td style="min-width: 120px">Level</td>
+                            <td style="min-width: 80px">Status</td>
+                            <td style="min-width: 140px" class="text-center">Action</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="j : ${jobs}">
+                            <td><span th:utext="${j.title}"></span></td>
+                            <td>
+                                <span th:each="s,i : ${j.skillJobs}"
+                                th:if="${i.count == 1}"
+                                th:utext="${s.skill.name}"></span>
+                                <span th:each="s,i : ${j.skillJobs}"
+                                      th:if="${i.count > 1}"
+                                      th:utext="${' , ' + s.skill.name}"></span>
+                            </td>
+                            <td class="text-center"><span th:utext="${j.apply}"></span></td>
+                            <td class="text-center"><span th:utext="${j.interviewed}"></span></td>
+                            <td><span th:utext="${j.level.name}"></span></td>
+                            <td>
+                                <span th:classappend="${j.status.name() == 'OPEN' ? 'successStatus' : 'dangerStatus'}"
+                                      th:utext="${j.status.value}">
+                                </span>
+                            </td>
+                            <td class="text-end" style="width: 160px">
+                                <a th:href="@{/admin/job/edit/{id}(id=${j.id})}"
+                                   class="text-decoration-none text-warning h4 ">
+                                    <ion-icon name="create-outline"></ion-icon>
+                                </a>
+                                <a th:href="@{/admin/job/{id}(id=${j.id})}"
+                                   class="text-decoration-none text-success h4 mx-3">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </a>
+                                <a href="#"
+                                   role="button"
+                                   th:onclick="'deleteById('+${j.id}+')'"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#deleteById"
+                                   class="text-decoration-none text-danger h4">
+                                    <ion-icon name="trash-outline"
+                                              id="job"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-between align-items-center mx-5">
+                        <div class="my-3">
+                            <span class="h5 me-5 text-primary"
+                                  th:utext="${'Total: ' + jobs.totalElements + ' rows'}">
+                            </span>
+                            <span class="h5 text-danger"
+                                  th:if="${jobs.totalElements  == 0}"
+                            >
+                                Don't find job
+                            </span>
+                        </div>
+                        <nav th:if="${jobs.totalElements > 0}"
+                             aria-label="Page navigation example"
+                             class="mt-4">
+                            <ul class="pagination d-flex justify-content-center">
+                                <li></li>
+                                <li class="page-item me-1">
+                                    <a class="page-link"
+                                       th:with="pageNumber=${searchResponse.pageNumber > 1 ?
+                                   searchResponse.pageNumber - 1 : 1}"
+                                       th:href="@{/admin/job/(
+                                   pageNumber=${pageNumber},
+                                   param=${searchResponse.param},
+                                   status=${searchResponse.status}
+                                   )}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a></li>
+                                <li class="page-item me-1" th:each="p,i : ${searchResponse.pageMaxNumber}">
+                                    <a class="page-link"
+                                       th:href="@{/admin/job/(
+                                   pageNumber=${i.count},
+                                   param=${searchResponse.param},
+                                   status=${searchResponse.status}
+                                   )}"
+                                       th:classappend="${i.count == searchResponse.pageNumber ?
+                                    'bg-primary text-white' : ''}"
+                                       th:utext="${i.count}"></a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       th:with="pageNumber=${searchResponse.pageNumber < searchResponse.pageMaxNumber.size() ?
+                                   searchResponse.pageNumber + 1 : searchResponse.pageMaxNumber.size()}"
+                                       th:href="@{/admin/job/(
+                                   pageNumber=${pageNumber},
+                                   param=${searchResponse.param},
+                                   status=${searchResponse.status}
+                                   )}"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                <li></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import file</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/job/import}" method="post" enctype="multipart/form-data">
+                        <input type="file" name="fileImport"/>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Import</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
