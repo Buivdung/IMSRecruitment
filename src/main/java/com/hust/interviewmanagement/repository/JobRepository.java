@@ -29,6 +29,8 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     @Query("SELECT j FROM Job j " +
             "WHERE j.status = ?1 ")
     List<Job> findAllByStatus(EStatus status);
+
+
     @Query("SELECT j FROM Job j " +
             "WHERE j.status = ?1 " +
             "AND j.interviewed < j.apply")

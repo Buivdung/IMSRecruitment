@@ -146,9 +146,11 @@
     z-index: 2000;
     display: none;
 }
+
 .modal-bg.active {
     display: block;
 }
+
 .modal-bg .modal-apply {
     position: absolute;
     margin: 15px 0;
@@ -198,27 +200,29 @@
     font-weight: 600;
 }
 
-.modal-bg .modal-apply form input{
+.modal-bg .modal-apply form input {
     height: 45px;
     padding: 15px;
     width: 100%;
     border: 1px solid var(--orange2);
     border-radius: 4px;
-    outline: var(--orange2) ;
+    outline: var(--orange2);
 }
 
-.modal-bg .modal-apply form textarea{
+.modal-bg .modal-apply form textarea {
     margin-top: 10px;
     padding: 15px;
     width: 100%;
     border: 1px solid var(--orange2);
     border-radius: 4px;
-    outline: var(--orange2) ;
+    outline: var(--orange2);
 }
-.modal-bg .modal-apply form div:last-child{
+
+.modal-bg .modal-apply form div:last-child {
     justify-content: end;
 }
-.modal-bg .modal-apply form div:last-child button{
+
+.modal-bg .modal-apply form div:last-child button {
     padding: 8px 15px;
     min-width: 85px;
     color: var(--orange);
@@ -229,16 +233,25 @@
     font-size: 16px;
     font-weight: bold;
 }
-.modal-bg .modal-apply form div:last-child button:hover{
+
+.modal-bg .modal-apply form div:last-child button:hover {
     color: white;
     background-color: var(--orange);
 }
-.cv{
+
+.cv {
     position: relative;
 }
-small{
+
+small {
     position: absolute;
     margin-left: 100px;
-    top :110%;
+    top: 110%;
     color: var(--black2);
+}
+
+.apply button.disabled {
+    pointer-events: none;
+    background-color: grey;
+    border: none;
 }

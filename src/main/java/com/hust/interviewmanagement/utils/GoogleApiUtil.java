@@ -52,7 +52,7 @@ public class GoogleApiUtil {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost("recruitment.up.railway.app/Callback").build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8180).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("cuden20101998@gmail.com");
 
     }

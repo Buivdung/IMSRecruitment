@@ -39,7 +39,13 @@
                         </thead>
                         <tbody>
                         <tr th:each="i : ${resultInterviews}">
-                            <td><span th:utext="${i.candidate.fullName}"></span></td>
+                            <td>
+                                <a class="text-decoration-none"
+                                        th:href="@{/admin/candidate/{id}(id=${i.candidate.id})}"
+                                   onclick="console.log('a')">
+                                    <span th:utext="${i.candidate.fullName}"></span>
+                                </a>
+                            </td>
                             <td><span th:utext="${i.candidate.email}"></span></td>
                             <td><span th:utext="${i.candidate.phoneNumber}"></span></td>
                             <td>

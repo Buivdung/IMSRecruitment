@@ -28,7 +28,7 @@
                     </button>
                 </form>
                 <div class="search-propose">
-<!--                    <p>✨ Tìm kiếm phổ biến:</p> <br>-->
+                    <!--                    <p>✨ Tìm kiếm phổ biến:</p> <br>-->
                     <span>✨ Tìm kiếm phổ biến:</span>
                     <a th:href="@{/search(param=${s.name})}" class="btn-search-propose"
                        th:each="s : ${#ctx.session.skills}"
@@ -41,13 +41,15 @@
     </div>
     <div class="con-f new-job">
         <div class="con">
-            <h1> 🔥   Công việc mới nhất</h1>
+            <h1> 🔥 Công việc mới nhất</h1>
             <br>
 
             <div class="job-details">
                 <div th:each="j : ${jobs}" class="job-detail">
-                    <a th:href="@{/job-detail/{id}(id=${j.id})}">
-
+                    <a role="button"
+                       href="#"
+                       th:with="href=${'/job-detail/' + j.id }"
+                       th:attr="onclick=${'window.open(''' + href + ''' )'}">
                         <img th:src="@{/image/logo.PNG}" alt="" width="60px" height="60px">
                         <h4 th:with="href=${'/job-detail/' + j.id }"
                             th:attr="onclick=${'window.open(''' + href + ''' )'}"
@@ -63,7 +65,7 @@
                             <ion-icon name="cash-outline"></ion-icon>
                             <p sec:authorize="authenticated"
                                class="detail-salary" th:utext="${'$' + j.salaryFrom + ' - $' + j.salaryTo}"></p>
-                            <a th:href="@{/login}"  sec:authorize="!authenticated"
+                            <a th:href="@{/login}" sec:authorize="!authenticated"
                                class="detail-salary">Đăng nhập để xem chi tiết lương</a>
                         </div>
                         <div class="">
