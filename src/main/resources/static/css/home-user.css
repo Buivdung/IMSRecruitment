@@ -274,7 +274,13 @@
     color: var(--color);
 }
 
-
+.item-search{
+    display: flex;
+    flex-wrap: wrap;
+}
+.item-search a{
+    margin: 5px 0;
+}
 
 /* ====================== Responsive Design ========================== */
 @media (max-width: 991px) {
@@ -300,6 +306,9 @@
     .old-jobs_left .old-job_content a {
         max-width: 300px;
     }
+    .search-propose{
+        width: 100%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -314,5 +323,8 @@
     .old-jobs_right {
         flex-direction: row-reverse;
         margin-top: 5px;
+    }
+    .search-propose{
+        width: 100%;
     }
 }
