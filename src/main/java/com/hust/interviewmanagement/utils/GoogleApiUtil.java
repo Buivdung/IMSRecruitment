@@ -52,7 +52,7 @@ public class GoogleApiUtil {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8180).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost("//ims-recruitment-8207c93bfae7.herokuapp.com").build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("cuden20101998@gmail.com");
 
     }
