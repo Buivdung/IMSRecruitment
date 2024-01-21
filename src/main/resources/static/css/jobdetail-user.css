@@ -255,3 +255,37 @@ small {
     background-color: grey;
     border: none;
 }
+
+/* ====================== Responsive Design ========================== */
+@media (max-width: 991px) {
+    .con {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .job-body{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-bg .modal-apply{
+        width: 80%;
+    }
+    .modal-bg .modal-apply div{
+        flex-direction: column;
+        align-items: start;
+        margin-bottom: 3px;
+    }
+    .modal-bg .modal-apply div:last-child{
+        align-items: center;
+        flex-direction: row;
+    }
+    small{
+        top:100%
+    }
+}
+
+@media (max-width: 480px) {
+
+}

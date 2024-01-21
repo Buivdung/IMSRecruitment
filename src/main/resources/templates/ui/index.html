@@ -30,10 +30,13 @@
                 <div class="search-propose">
                     <!--                    <p>✨ Tìm kiếm phổ biến:</p> <br>-->
                     <span>✨ Tìm kiếm phổ biến:</span>
-                    <a th:href="@{/search(param=${s.name})}" class="btn-search-propose"
-                       th:each="s : ${#ctx.session.skills}"
-                       th:utext="${s.name}">
-                    </a>
+                    <div class="item-search">
+                        <a th:href="@{/search(param=${s.name})}" class="btn-search-propose"
+                           th:each="s : ${#ctx.session.skills}"
+                           th:utext="${s.name}">
+                        </a>
+                    </div>
+
                 </div>
             </div>
 
