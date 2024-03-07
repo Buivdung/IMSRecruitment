@@ -161,11 +161,28 @@
                 </div>
                 <input type="hidden" name="status" value="OPEN">
                 <div class="d-flex justify-content-center mt-4">
-                    <input type="submit" value="Submit" class="btn btn-custom btn-outline-primary me-5">
+
+                    <input type="button" data-bs-toggle="modal"
+                           data-bs-target="#deleteById"
+                           value="Submit" class="btn btn-custom btn-outline-primary me-5">
                     <a th:href="@{/admin/interview/{iId}/candidates(iId=${interviewSchedule.id})}" role="button"
                        class="btn btn-custom btn-outline-secondary">
                         Back
                     </a>
+                </div>
+                <div class="modal fade" id="deleteById" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Bạn có muốn thay đổi dữ liệu này không?</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-footer add_url">
+                                <input type="button" data-bs-dismiss="modal" value="Cancel" class="btn btn-custom btn-outline-primary me-5">
+                                <input type="submit" value="Submit" class="btn btn-custom btn-outline-primary me-5">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </section>
