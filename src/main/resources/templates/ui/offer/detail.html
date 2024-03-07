@@ -146,11 +146,12 @@
             </div>
             <div class="d-flex justify-content-center mt-4">
                 <a th:href="@{/admin/offer/edit/{id}(id=${offer.id})}" role="button"
-                   class="btn btn-custom btn-outline-primary">
+                   class="btn btn-custom btn-outline-primary me-5">
                     Edit
                 </a>
-                <a th:href="@{/admin/offer/approve/{id}(id=${offer.id})}" role="button"
-                   class="btn btn-custom btn-outline-success mx-5">
+
+                <a th:if="${offer.status == 'WAITING_FOR_APPROVAL'}" th:href="@{/admin/offer/approve/{id}(id=${offer.id})}" role="button"
+                   class="btn btn-custom btn-outline-success me-5">
                     Result
                 </a>
                 <a th:href="@{/admin/offer}" role="button"
