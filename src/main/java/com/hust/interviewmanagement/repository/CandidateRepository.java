@@ -9,6 +9,7 @@ import com.hust.interviewmanagement.enums.EStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -41,4 +42,8 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
 
 
     List<Candidate> findCandidateByJob_IdAndStatus(Long id,EStatus status);
+
+    @Modifying
+    @Query("delete Candidate where id = ?1")
+    void deleteById(Long id);
 }

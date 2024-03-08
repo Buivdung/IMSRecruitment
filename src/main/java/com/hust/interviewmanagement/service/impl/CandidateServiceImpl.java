@@ -6,6 +6,8 @@ import com.hust.interviewmanagement.enums.EMessageCandidate;
 import com.hust.interviewmanagement.enums.EStatus;
 import com.hust.interviewmanagement.repository.CandidateRepository;
 import com.hust.interviewmanagement.repository.JobRepository;
+import com.hust.interviewmanagement.repository.OfferRepository;
+import com.hust.interviewmanagement.repository.ResultInterviewRepository;
 import com.hust.interviewmanagement.service.CandidateService;
 import com.hust.interviewmanagement.utils.GoogleApiUtil;
 import com.hust.interviewmanagement.web.request.CandidateRequest;
@@ -29,7 +31,8 @@ public class CandidateServiceImpl implements CandidateService {
     private final CandidateRepository candidateRepository;
     private final GoogleApiUtil googleApiUtil;
     private final ModelMapper modelMapper;
-
+    private final OfferRepository offerRepository;
+    private final ResultInterviewRepository resultInterviewRepository;
     private final JobRepository jobRepository;
     @Override
     @Transactional
@@ -70,6 +73,7 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
+    @Transactional
     public Candidate updateCandidate(CandidateRequest candidateRequest) throws IOException, GeneralSecurityException {
         Candidate candidate = findCandidateById(candidateRequest.getId());
         getCandidate(candidate, candidateRequest);
@@ -77,10 +81,13 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
+    @Transactional
     public void deleteCandidate(Long id) {
         Candidate candidate = findCandidateById(id);
         Job job =candidate.getJob();
         job.setApply(job.getApply()-1L);
+        offerRepository.deleteByCandidateId(id);
+        resultInterviewRepository.deleteByCandidateId(id);
         candidateRepository.deleteById(id);
     }
 

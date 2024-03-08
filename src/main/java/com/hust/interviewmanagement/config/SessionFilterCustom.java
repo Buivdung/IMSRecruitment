@@ -1,8 +1,8 @@
 package com.hust.interviewmanagement.config;
 
-import com.hust.interviewmanagement.entities.Account;
+import com.hust.interviewmanagement.entities.Notification;
 import com.hust.interviewmanagement.entities.Users;
-import com.hust.interviewmanagement.service.AccountService;
+import com.hust.interviewmanagement.service.NotificationService;
 import com.hust.interviewmanagement.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,19 +11,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
 public class SessionFilterCustom extends OncePerRequestFilter {
 
-    private final AccountService accountService;
+    private final UserService userService;
+    private final NotificationService notificationService;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -34,18 +36,17 @@ public class SessionFilterCustom extends OncePerRequestFilter {
         HttpSession session = request.getSession();
         String title = getTitle(servletPath);
         session.setAttribute("title", title);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication != null
-//                && accountService.existedAccountByEmail(authentication.getName())) {
-//            Account account = accountService.findAccountByEmail(authentication.getName());
-//            if (!account.isCheckPassword() && !servletPath.contains("/admin/user/changePassword")) {
-//                response.sendRedirect("/admin/user/changePassword");
-//            } else {
-//                filterChain.doFilter(request, response);
-//            }
-//        } else {
+        if(servletPath.contains("/admin/")){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!Objects.isNull(authentication)){
+                Users user = userService.findUserByAccount_Email(authentication.getName());
+                List<Notification> notifications = notificationService.getNotifications(user.getId());
+                int numberNo = notifications.stream().filter(x -> !x.isChecked()).toList().size();
+                session.setAttribute("notifications",notifications);
+                session.setAttribute("numberNo",numberNo);
+            }
+        }
         filterChain.doFilter(request, response);
-//        }
     }
 
     private String getTitle(String servletPath) {

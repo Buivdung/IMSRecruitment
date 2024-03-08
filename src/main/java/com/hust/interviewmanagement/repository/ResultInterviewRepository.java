@@ -24,4 +24,8 @@ public interface ResultInterviewRepository extends JpaRepository<ResultInterview
             "JOIN job j on c.job_id = j.id " +
             "where j.id = :jobId ", nativeQuery = true)
     long countAllCandidate(@Param("jobId") Long jobId);
+
+    @Modifying
+    @Query("DELETE ResultInterview where candidate.id = ?1")
+    void deleteByCandidateId(Long id);
 }
