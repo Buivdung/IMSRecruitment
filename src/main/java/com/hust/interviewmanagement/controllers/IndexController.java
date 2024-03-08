@@ -18,10 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -39,10 +36,17 @@ public class IndexController {
     private final LevelService levelService;
     private final CandidateService candidateService;
     private final SearchUtil searchUtil;
+    private final NotificationService notificationService;
 
     @GetMapping("/admin/user")
     public String user() {
         return "layout/navigation";
+    }
+
+    @GetMapping("/admin/checked/{id}")
+    @ResponseBody
+    void checked(@PathVariable Long id) {
+        notificationService.checked(id);
     }
 
     @GetMapping("/admin/dashboard")
@@ -105,7 +109,7 @@ public class IndexController {
     //    detail
     @GetMapping("/job-detail/{id}")
     public String jobDetail(@PathVariable Long id, Model model) {
-        model.addAttribute("now",LocalDate.now());
+        model.addAttribute("now", LocalDate.now());
         model.addAttribute("job", jobService.findJobById(id));
         return "ui/job-detail";
     }

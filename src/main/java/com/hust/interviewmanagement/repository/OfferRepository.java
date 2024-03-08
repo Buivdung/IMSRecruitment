@@ -34,4 +34,7 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
     @Modifying
     @Query("DELETE Offer where id in ?1")
     void deleteByOfferId(List<Long> ids);
+    @Modifying
+    @Query("DELETE Offer where resultInterview.candidate.id = ?1")
+    void deleteByCandidateId(Long id);
 }

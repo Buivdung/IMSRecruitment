@@ -4,6 +4,7 @@ import com.hust.interviewmanagement.entities.Candidate;
 import com.hust.interviewmanagement.enums.ELabelCommon;
 import com.hust.interviewmanagement.service.CandidateService;
 import com.hust.interviewmanagement.service.JobService;
+import com.hust.interviewmanagement.service.NotificationService;
 import com.hust.interviewmanagement.utils.GoogleApiUtil;
 import com.hust.interviewmanagement.utils.SearchUtil;
 import com.hust.interviewmanagement.web.request.CandidateRequest;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/admin/candidate")
@@ -31,6 +33,7 @@ public class CandidateController {
     private final SearchUtil searchUtil;
     private final JobService jobService;
     private final GoogleApiUtil googleApiUtil;
+    private final NotificationService notificationService;
 
 
     @GetMapping({"/", ""})
@@ -61,13 +64,15 @@ public class CandidateController {
     public String createCandidate(@ModelAttribute CandidateRequest candidateRequest,
                                   Model model
     ) throws GeneralSecurityException, IOException {
-        if (candidateService.saveCandidate(candidateRequest) != null) {
+        Candidate candidate = candidateService.saveCandidate(candidateRequest);
+        if (!Objects.isNull(candidate)) {
             model.addAttribute(ELabelCommon.ALERT.getValue(), "Success");
         } else {
             model.addAttribute("candidateRequest", candidateRequest);
             model.addAttribute(ELabelCommon.ALERT.getValue(), "Fail");
             model.addAttribute(ELabelCommon.MESSAGE.getValue(), "Candidate da ton tai");
         }
+        notificationService.NotificationAddCandidate(candidate);
         return "ui/candidate/add";
     }
 

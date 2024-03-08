@@ -38,6 +38,7 @@ public class Users implements Serializable {
     @ToString.Exclude
     private Account account;
 
+
     @OneToMany(mappedBy = "recruiter",fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<InterviewSchedule> interviewScheduleRecruiter;

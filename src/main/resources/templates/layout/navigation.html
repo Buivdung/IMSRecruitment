@@ -5,8 +5,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
 <head>
-    <th:block th:replace="~{layout/fragment::head}">
-    </th:block>
     <link th:href="@{/css/navigation.css}" rel="stylesheet">
 </head>
 <body>
@@ -28,14 +26,6 @@
                 </span>
                 <span class="title">Home page</span>
             </a>
-<!--            <a th:href="@{/admin/dashboard/}"-->
-<!--               th:classappend="${#ctx.session.title == 'DASHBOARD' ? 'clicked' : ''}"-->
-<!--               class="text-decoration-none d-flex align-items-center">-->
-<!--                <span class="icon">-->
-<!--                    <ion-icon name="home-outline"></ion-icon>-->
-<!--                </span>-->
-<!--                <span class="title">Dashboard</span>-->
-<!--            </a>-->
             <a th:href="@{/admin/candidate/}"
                th:classappend="${#ctx.session.title == 'CANDIDATE' ? 'clicked' : ''}"
                class="text-decoration-none d-flex align-items-center">
@@ -102,6 +92,32 @@
                     <ion-icon name="person-circle-outline"></ion-icon>
                 </a>
             </div>
+            <div class="user">
+                <a href="#"
+                   role="button"
+                   id="dropdownMenuButton1"
+                   data-bs-toggle="dropdown"
+                   aria-expanded="false"
+                class="position-relative">
+                    <ion-icon name="notifications-outline"></ion-icon>
+                </a>
+                <h6 class="position-absolute"
+                    style="top: 35px;right: 15px;font-weight: 700;color: red"
+                    th:utext="${session.numberNo}"></h6>
+                <div style="width: 400px; height: 800px" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <div th:each=" n : ${session.notifications}" class="position-relative">
+                        <a class="dropdown-item "
+                           style="max-height: 80px;overflow: auto;white-space: pre-wrap"
+                           th:href="@{ ${n.link}}"
+                           th:onclick="'checked('+${n.id}+')'"
+                           th:utext="${n.comment}"></a>
+                        <h6 th:if="${!n.checked}" class="text-primary position-absolute" style="top:50%;right: 4%">
+                            <ion-icon name="radio-button-on-outline"></ion-icon>
+                        </h6>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
     <div layout:fragment="content" class="content">
@@ -125,5 +141,10 @@
     <h5 th:utext="${alert}"></h5>
 </div>
 <script th:src="@{/js/navigation.js}"></script>
+<script>
+    function checked(id) {
+        $.get("/admin/checked/"+id);
+    }
+</script>
 </body>
 </html>
