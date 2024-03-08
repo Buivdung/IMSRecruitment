@@ -118,7 +118,7 @@
                             <td style="min-width: 180px">Title</td>
                             <td style="min-width: 120px">Interview</td>
                             <td style="min-width: 150px">Schedule</td>
-                            <td class="text-center" style="min-width: 120px">Total candidate</td>
+                            <td style="min-width: 120px">Total candidate</td>
                             <td style="min-width: 120px">Location</td>
                             <td style="min-width: 80px">Status</td>
                             <td style="min-width: 140px" class="text-center">Action</td>
@@ -136,12 +136,8 @@
                                       th:utext="${', ' + inter.interviewer.fullName}"></span>
                             </td>
                             <td><span th:utext="${i.schedule.toString().replace('T',' - ')}"></span></td>
-                            <td class="text-center d-flex align-items-center justify-content-center">
-                                <span class="me-2 " th:utext="${i.candidateNumber}"></span>
-                                <a th:href="@{/admin/interview/{id}/candidates(id=${i.id})}"
-                                   class="text-decoration-none ms-1 mt-2">
-                                    <ion-icon class="h5 pt-1" name="eye-outline"></ion-icon>
-                                </a>
+                            <td class="text-center">
+                                <span th:utext="${i.candidateNumber}"></span>
                             </td>
                             <td>
                                 <span th:classappend="${i.location ? 'successStatus' : 'primaryStatus'}"

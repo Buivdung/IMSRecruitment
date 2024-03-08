@@ -31,6 +31,7 @@ public class InterviewController {
     private final SearchUtil searchUtil;
     private final CandidateService candidateService;
     private final ResultService resultService;
+    private final NotificationService notificationService;
 
     @GetMapping({"/", ""})
     public String getCandidates(@ModelAttribute SearchRequest searchRequest,
@@ -74,6 +75,7 @@ public class InterviewController {
             model.addAttribute(ELabelCommon.MESSAGE.getValue(), "Interview da ton tai");
             return "ui/interview/add";
         }
+        notificationService.NotificationAddInterviewSchedule(interviewSchedule.getId(),interviewRequest);
         ra.addFlashAttribute(ELabelCommon.ALERT.getValue(), "Success");
         return "redirect:/admin/interview/create";
     }

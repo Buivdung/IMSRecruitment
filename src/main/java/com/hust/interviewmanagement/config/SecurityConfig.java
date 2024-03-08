@@ -44,7 +44,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll())
                 .exceptionHandling(err -> err.accessDeniedPage("/403"))
-                .addFilterBefore(sessionFilterCustom, BasicAuthenticationFilter.class);
+                .addFilterAfter(sessionFilterCustom, BasicAuthenticationFilter.class);
 //        config tam thời
         return http.build();
     }
