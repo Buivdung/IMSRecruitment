@@ -160,6 +160,7 @@ public class EmailServiceImpl implements EmailService {
                     .append("<p>Tham gia phỏng vấn bạn nên chuẩn bị tinh thần và kiến thức tốt để đạt kết quả tốt nhé!</p>")
                     .append("<p>Chúng tôi mong chờ cơ hội hơp tác và làm việc với bạn trong thời gian tới.</p>")
                     .append("</div>");
+
             EmailDetail emailDetail = EmailDetail.builder()
                     .recipient(e)
                     .subject(subject)
