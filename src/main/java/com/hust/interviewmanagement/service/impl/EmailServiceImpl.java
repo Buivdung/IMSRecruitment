@@ -170,6 +170,11 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
+    @Override
+    @Async("taskExecutor")
+    public void sendMailToUser(Account account, String password) throws MessagingException {
+        StringBuilder sb = new StringBuilder();
+    }
 
     @Override
     @Async("taskExecutor")
@@ -177,5 +182,66 @@ public class EmailServiceImpl implements EmailService {
         StringBuilder sb = new StringBuilder();
     }
 
-
+    @Override
+    public void sendMailNotifyOnBoard(Collection<String> email, String subject, InterviewSchedule interviewSchedule) throws MessagingException {
+        String address = interviewSchedule.isLocation() ?
+                "<a href=\"" + interviewSchedule.getMeeting() + "\"> Microsoft Teams: Click here to join the meeting </a>"
+                : interviewSchedule.getMeeting();
+        for (String e : email) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("<div>")
+                    .append(" <h1 style=\"color: blue; text-align: center;\">THƯ MỜI THAM GIA LÀM VIỆC TẠI IMS</h1>")
+                    .append("<p>Thân gửi bạn,</p>")
+                    .append("<p>Mình là Trang – Cán bộ Nhân Sự tại IMS. Trân trọng cảm ơn bạn đã quan tâm đến cơ hội nghề nghiệp tại</p>")
+                    .append("<p>IMS và dành thời gian tìm hiểu - tham gia quy trình tuyển dụng của công ty.</p>")
+                    .append("<p>Chúng tôi xin trân trọng thông báo và chúc bạn đã trúng tuyển tại IMS.</strong>")
+                    .append("</br>")
+                    .append("<p>Dưới đây là các thông tin quan trọng để bắt đầu trước khi làm việc tại IMS. Bạn vui lòng đọc kỹ email và</p>")
+                    .append("<p>theo dõi các thông báo từ công ty. Nếu bạn “ĐỒNG Ý” với Thư mời làm việc này, vui lòng phản hồi qua email để</p>")
+                    .append("<p>Phòng Nhân sự hỗ trợ thủ tục trước 17h ngày ")
+                    .append(interviewSchedule.getSchedule().getDayOfMonth() + "/" + interviewSchedule.getSchedule().getMonthValue() + 1 + "/" + interviewSchedule.getSchedule().getYear() + "</p>")
+                    .append("<table>")
+                    .append("<tr>")
+                    .append("<td style=\"width: 30%; border-bottom: 1px dotted #333;\"><strong>Ngày bắt đầu</strong></td>")
+                    .append("<td style=\"border-bottom: 1px dotted #333;\">")
+                    .append(interviewSchedule.getSchedule().plusDays(7).getDayOfMonth() + " tháng " + interviewSchedule.getSchedule().plusDays(7).getMonthValue() + " năm " + interviewSchedule.getSchedule().plusDays(7).getYear())
+                    .append("</td>")
+                    .append("</tr>")
+                    .append("<tr>")
+                    .append("<td style=\"width: 30%; border-bottom: 1px dotted #333;\"><strong>Địa điểm làm việc</strong></td>")
+                    .append("<td style=\"border-bottom: 1px dotted #333;\">F-Ville 3, Khu CNC Hòa Lạc, Thạch Thất, Hà Nội</td>")
+                    .append("</tr>")
+                    .append("<tr>")
+                    .append("<td style=\"width: 30%; border-bottom: 1px dotted #333;\"><strong>Thời gian làm việc</strong></td>")
+                    .append("<td style=\"border-bottom: 1px dotted #333;\">Từ 8h30 – 17h30 và thứ 2 – thứ 6 hàng tuần.</td>")
+                    .append("</tr>")
+                    .append("<tr>")
+                    .append("<td style=\"width: 30%; border-bottom: 1px dotted #333;\"><strong>Contact đón</strong></td>")
+                    .append("<td style=\"border-bottom: 1px dotted #333;\">Nguyễn Văn A – 0903460087 – nva@gmail.com (Liên hệ trước 2 ngày làm việc)</td>")
+                    .append("</tr>")
+                    .append("<tr>")
+                    .append("<td style=\"width: 30%; border-bottom: 1px dotted #333;\"><strong>Công việc</strong></td>")
+                    .append("<td style=\"border-bottom: 1px dotted #333;\">Theo hướng dẫn từ quản lý trực tiếp tại đơn vị.</td>")
+                    .append("</tr>")
+                    .append("<tr>")
+                    .append("<td style=\"width: 30%; border-bottom: 1px dotted #333;\"><strong>Thủ tục onboard</strong></td>")
+                    .append("<td style=\"border-bottom: 1px dotted #333;\">Email về thủ tục onboard sẽ được gửi trước 3-5 ngày bắt đầu làm việc.</td>")
+                    .append("</tr>")
+                    .append("<tr>")
+                    .append("<td style=\"width: 30%;\"><strong>Hỗ trợ nhân sự</strong></td>")
+                    .append("<td>Nguyễn Thu Thảo – ntthao@gmail.com - Cán bộ Quản lý nhân sự</td>")
+                    .append("</tr>")
+                    .append("<tr><td colspan=\"2\" style=\"border-bottom: 1px dotted #333;\" ><br></td></tr>")
+                    .append("</table>")
+                    .append("<p>Chúng tôi tin rằng bạn sẽ có môi trường học tập và phát triển kỹ năng tuyệt vời tại IMS.</p>")
+                    .append("<p>Chúc bạn tiếp tục nuôi dưỡng đam mê và gặt hái nhiều thành công trong thời gian tới!</p>")
+                    .append("</div>");
+            EmailDetail emailDetail = EmailDetail.builder()
+                    .recipient(e)
+                    .subject(subject)
+                    .msgBody(sb.toString())
+                    .build();
+            sendMailHtml(emailDetail);
+        }
+    }
 }
