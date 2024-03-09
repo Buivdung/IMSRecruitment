@@ -1,6 +1,7 @@
 package com.hust.interviewmanagement.controllers;
 
 import com.hust.interviewmanagement.entities.Account;
+import com.hust.interviewmanagement.entities.Candidate;
 import com.hust.interviewmanagement.entities.Job;
 import com.hust.interviewmanagement.entities.Users;
 import com.hust.interviewmanagement.enums.ELabelCommon;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -117,12 +119,14 @@ public class IndexController {
     @PostMapping("/applyCv")
     public String applyCv(@ModelAttribute CandidateRequest candidateRequest,
                           RedirectAttributes ra) throws GeneralSecurityException, IOException {
-        if (candidateService.saveCandidate(candidateRequest) != null) {
+        Candidate candidate = candidateService.saveCandidate(candidateRequest);
+        if (!Objects.isNull(candidate)) {
             ra.addFlashAttribute(ELabelCommon.ALERT.getValue(), "Success");
         } else {
             ra.addFlashAttribute("candidateRequest", candidateRequest);
             ra.addFlashAttribute(ELabelCommon.ALERT.getValue(), "Thất bại, Bạn đã nạp cv rồi");
         }
+        notificationService.NotificationAddCandidate(candidate);
         return "redirect:/job-detail/" + candidateRequest.getJobId();
     }
 

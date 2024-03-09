@@ -46,7 +46,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<Notification> getNotifications(Long userId) {
-        return notificationRepository.getNotificationsByUserId(userId);
+        return notificationRepository.getNotificationsByUserIdOrderByIdDesc(userId);
     }
 
     @Override
@@ -71,9 +71,7 @@ public class NotificationServiceImpl implements NotificationService {
                     .checked(false)
                     .build());
         }
-        if (notifications.size() > 0){
-            notificationRepository.save(notifications.get(0));
-        }
+            notificationRepository.saveAll(notifications);
     }
 
 
