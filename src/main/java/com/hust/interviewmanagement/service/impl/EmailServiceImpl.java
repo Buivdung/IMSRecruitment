@@ -177,12 +177,6 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    @Async("taskExecutor")
-    public void sendMailToUser(Account account, String password) throws MessagingException {
-        StringBuilder sb = new StringBuilder();
-    }
-
-    @Override
     public void sendMailNotifyOnBoard(Collection<String> email, String subject, InterviewSchedule interviewSchedule) throws MessagingException {
         String address = interviewSchedule.isLocation() ?
                 "<a href=\"" + interviewSchedule.getMeeting() + "\"> Microsoft Teams: Click here to join the meeting </a>"
