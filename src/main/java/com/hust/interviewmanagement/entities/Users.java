@@ -31,6 +31,7 @@ public class Users implements Serializable {
     private LocalDate createDate;
 
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "department_id", referencedColumnName = "department_id")
     private Department department;
 
