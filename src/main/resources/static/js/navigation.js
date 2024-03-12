@@ -22,7 +22,7 @@ function deleteById(id) {
     let url = "/admin/" + event.target.getAttribute("id") + "/delete/" + id;
     addUrl.empty();
     addUrl.append(`
-             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a href="${url}" class="btn btn-primary">Delete</a>`)
+             <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="${url}" class="btn btn-primary" data-bs-dismiss="modal">Delete</a>`)
 }
 let addUrl = $(".add_url");

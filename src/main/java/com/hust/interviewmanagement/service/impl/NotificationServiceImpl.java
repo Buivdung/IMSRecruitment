@@ -33,14 +33,14 @@ public class NotificationServiceImpl implements NotificationService {
         String comment = "<strong>" + candidate.getFullName() + "</strong>  đã nạp hồ sơ vào việc làm <strong>" + job.getTitle() + "</strong>";
         String link = "/admin/candidate/" + candidate.getId();
         List<Users> users = userRepository
-                .findUsersByAccount_RoleIn(List.of(ERole.ROLE_MANAGER,ERole.ROLE_RECRUITER));
+                .findUsersByAccount_RoleIn(List.of(ERole.ROLE_MANAGER, ERole.ROLE_RECRUITER));
         List<Notification> notifications = users.stream()
-                                                .map( u -> Notification.builder()
-                                                    .comment(comment)
-                                                    .link(link)
-                                                    .userId(u.getId())
-                                                    .checked(false)
-                                                    .build()).toList();
+                .map(u -> Notification.builder()
+                        .comment(comment)
+                        .link(link)
+                        .userId(u.getId())
+                        .checked(false)
+                        .build()).toList();
         notificationRepository.saveAll(notifications);
     }
 
@@ -52,9 +52,9 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     @Transactional
     public void checked(Long id) {
-      Notification notification =  notificationRepository.findById(id).orElseThrow();
-      notification.setChecked(true);
-      notificationRepository.save(notification);
+        Notification notification = notificationRepository.findById(id).orElseThrow();
+        notification.setChecked(true);
+        notificationRepository.save(notification);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class NotificationServiceImpl implements NotificationService {
         String comment = "Bạn đã được thêm vào làm ngưởi phỏng vấn của buổi phỏng vấn: <strong>" + interviewRequest.getTitle() + "</strong>";
         String link = "/admin/interview/" + id;
         List<Notification> notifications = new ArrayList<>();
-        for (Long u : interviewRequest.getInterviewId()){
+        for (Long u : interviewRequest.getInterviewId()) {
             notifications.add(Notification.builder()
                     .comment(comment)
                     .link(link)
@@ -71,7 +71,7 @@ public class NotificationServiceImpl implements NotificationService {
                     .checked(false)
                     .build());
         }
-            notificationRepository.saveAll(notifications);
+        notificationRepository.saveAll(notifications);
     }
 
 

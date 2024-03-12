@@ -59,25 +59,24 @@ public class InterviewController {
     public String createInterview(
             @ModelAttribute @Validated InterviewRequest interviewRequest,
                                   BindingResult bindingResult,
-            RedirectAttributes ra,
-            Model model) throws MessagingException {
+            RedirectAttributes ra) throws MessagingException {
         if(bindingResult.hasErrors()) {
-            model.addAttribute("interviewRequest", interviewRequest);
-            model.addAttribute("alert", "Create false");
-            model.addAttribute("jobs", jobService.findJobByStatusOpen());
-            model.addAttribute("users", userService.findUserByRoleInterviewAndRecruiter());
-            return "ui/interview/add";
+            ra.addFlashAttribute("interviewRequest", interviewRequest);
+            ra.addFlashAttribute("alert", "Create false");
+            ra.addFlashAttribute("jobs", jobService.findJobByStatusOpen());
+            ra.addFlashAttribute("users", userService.findUserByRoleInterviewAndRecruiter());
+            return "redirect:/admin/interview";
         }
        InterviewSchedule interviewSchedule = interviewService.saveInterviewSchedule(interviewRequest);
         if(Objects.isNull(interviewSchedule)){
-            model.addAttribute("interviewRequest", interviewRequest);
-            model.addAttribute(ELabelCommon.ALERT.getValue(), "Fail");
-            model.addAttribute(ELabelCommon.MESSAGE.getValue(), "Interview da ton tai");
-            return "ui/interview/add";
+            ra.addFlashAttribute("interviewRequest", interviewRequest);
+            ra.addFlashAttribute(ELabelCommon.ALERT.getValue(), "Fail");
+            ra.addFlashAttribute(ELabelCommon.MESSAGE.getValue(), "Interview da ton tai");
+            return "redirect:/admin/interview";
         }
-        notificationService.NotificationAddInterviewSchedule(interviewSchedule.getId(),interviewRequest);
+      //  notificationService.NotificationAddInterviewSchedule(interviewSchedule.getId(),interviewRequest);
         ra.addFlashAttribute(ELabelCommon.ALERT.getValue(), "Success");
-        return "redirect:/admin/interview/create";
+        return "redirect:/admin/interview";
     }
 
     @GetMapping("/edit/{id}")
@@ -138,10 +137,10 @@ public class InterviewController {
     public String result(@PathVariable Long interviewId,
                          @PathVariable Long resultId,
                          @ModelAttribute ResultRequest resultRequest,
-                         Model model) {
+                         RedirectAttributes ra) {
         resultService.updateResult(resultRequest);
-        model.addAttribute("alert","Update thanh cong");
-        return "redirect:/admin/interview/" + interviewId + "/result/" + resultId;
+        ra.addFlashAttribute("alert","Update thanh cong");
+        return "redirect:/admin/interview/" + interviewId + "/candidates";
     }
 
     @GetMapping("/{id}")

@@ -4,6 +4,7 @@ import com.hust.interviewmanagement.entities.*;
 import com.hust.interviewmanagement.enums.EContractType;
 import com.hust.interviewmanagement.enums.EStatus;
 import com.hust.interviewmanagement.repository.*;
+import com.hust.interviewmanagement.service.EmailService;
 import com.hust.interviewmanagement.service.OfferService;
 import com.hust.interviewmanagement.web.request.OfferRequest;
 import com.hust.interviewmanagement.web.request.SearchRequest;
@@ -26,6 +27,7 @@ public class OfferServiceImpl implements OfferService {
     private final ResultInterviewRepository resultInterviewRepository;
     private final DepartmentRepository departmentRepository;
     private final CandidateRepository candidateRepository;
+    private final EmailService emailService;
 
     @Override
     public Page<Offer> findAllOffer(SearchRequest searchRequest) {

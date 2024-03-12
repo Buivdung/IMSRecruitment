@@ -93,6 +93,7 @@
                             </td>
                             <td class="text-end" style="width: 160px">
                                 <a th:href="@{/admin/offer/edit/{id}(id=${o.id})}"
+                                   th:if="${o.status.name() == 'WAITING_FOR_APPROVAL'}"
                                    class="text-decoration-none text-warning h4 ">
                                     <ion-icon name="create-outline"></ion-icon>
                                 </a>
