@@ -122,7 +122,7 @@
                         </div>
                         <div class="form-field">
                             <div class="form-input d-flex align-items-center">
-                                <span th:utext="${offer.basicSalary}"></span>
+                                <span th:utext="${offer.basicSalary.toString().replace('.00', '') + ' vnd'}"></span>
                             </div>
                             <label class="form-lb">Basic salary</label>
                             <ion-icon class="form-icon" name="person-outline"></ion-icon>
@@ -145,12 +145,12 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center mt-4">
-                <a th:href="@{/admin/offer/edit/{id}(id=${offer.id})}" role="button"
+                <a th:if="${offer.status.name() == 'WAITING_FOR_APPROVAL'}" th:href="@{/admin/offer/edit/{id}(id=${offer.id})}" role="button"
                    class="btn btn-custom btn-outline-primary me-5">
                     Edit
                 </a>
 
-                <a th:if="${offer.status == 'WAITING_FOR_APPROVAL'}" th:href="@{/admin/offer/approve/{id}(id=${offer.id})}" role="button"
+                <a th:if="${offer.status.name() == 'WAITING_FOR_APPROVAL'}" th:href="@{/admin/offer/approve/{id}(id=${offer.id})}" role="button"
                    class="btn btn-custom btn-outline-success me-5">
                     Result
                 </a>

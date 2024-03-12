@@ -29,6 +29,11 @@ function approveStatus(id){
     $.get(
         "/admin/offer/approve/accepted/"+id + "?notes=" + notes
     ).done(function (){
+        $('body').append(`
+            <div class="alerts">
+                  <h5>Accepted success</h5>
+            </div>
+        `)
         window.location.href = "/admin/offer/"+ id
     })
 }

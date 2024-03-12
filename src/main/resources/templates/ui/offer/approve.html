@@ -224,11 +224,11 @@
                 <div class="d-flex justify-content-center mt-4">
                     <input type="button" data-bs-toggle="modal"
                            data-bs-target="#approve"
-                           value="Approve" class="btn btn-custom btn-outline-primary me-5">
+                           value="Approve" class="btn btn-custom btn-outline-success me-5">
 
                     <input type="button" data-bs-toggle="modal"
                            data-bs-target="#reject"
-                           value="Reject" class="btn btn-custom btn-outline-primary me-5">
+                           value="Reject" class="btn btn-custom btn-outline-danger me-5">
 
                     <a th:href="@{/admin/offer/{id}(id=${offer.id})}" role="button"
                        class="btn btn-custom btn-outline-secondary">
@@ -240,12 +240,12 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Bạn có muốn approve hợp đồng này không?</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Do you want to approve this contract?</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-footer add_url">
-                                <input type="button" data-bs-dismiss="modal" value="Cancel" class="btn btn-custom btn-outline-primary me-5">
-                                <button type="button" th:onclick="'approveStatus('+${offer.id}+')'"
+                            <div class="modal-footer add_url d-flex justify-content-center">
+                                <input type="button" data-bs-dismiss="modal" value="Cancel" class="btn btn-custom btn-outline-secondary me-5">
+                                <button type="button" data-bs-dismiss="modal" th:onclick="'approveStatus('+${offer.id}+')'"
                                         class="btn btn-custom btn-outline-success ">Approve
                                 </button>
                             </div>
@@ -257,12 +257,12 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel1">Bạn có muốn reject hợp đồng này không?</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel1">Do you want to reject this contract?</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-footer add_url">
-                                <input type="button" data-bs-dismiss="modal" value="Cancel" class="btn btn-custom btn-outline-primary me-5">
-                                <button type="button" th:onclick="'rejectStatus('+${offer.id}+')'"
+                            <div class="modal-footer add_url d-flex justify-content-center">
+                                <input type="button" data-bs-dismiss="modal" value="Cancel" class="btn btn-custom btn-outline-secondary me-5">
+                                <button type="button" data-bs-dismiss="modal" th:onclick="'rejectStatus('+${offer.id}+')'"
                                         class="btn btn-outline-danger btn-custom mx-5">
                                     Reject
                                 </button>
