@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 
@@ -173,14 +174,20 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @Async("taskExecutor")
     public void sendMailToUser(Account account, String password) throws MessagingException {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder("Mật khẩu mới của bạn là: ");
+        sb.append(password);
+        EmailDetail emailDetail = EmailDetail.builder()
+                .recipient("dungbv201098@gmail.com")
+                .subject("Cap mat khau:")
+                .msgBody(sb.toString())
+                .build();
+        sendMailHtml(emailDetail);
     }
 
     @Override
-    public void sendMailNotifyOnBoard(Collection<String> email, String subject, InterviewSchedule interviewSchedule) throws MessagingException {
-        String address = interviewSchedule.isLocation() ?
-                "<a href=\"" + interviewSchedule.getMeeting() + "\"> Microsoft Teams: Click here to join the meeting </a>"
-                : interviewSchedule.getMeeting();
+    @Async("taskExecutor")
+    public void sendMailNotifyOnBoard(Collection<String> email, String subject,Offer offer) throws MessagingException {
+        LocalDate startDate = offer.getDueDate().plusDays(7);
         for (String e : email) {
             StringBuilder sb = new StringBuilder();
             sb.append("<div>")
@@ -193,17 +200,17 @@ public class EmailServiceImpl implements EmailService {
                     .append("<p>Dưới đây là các thông tin quan trọng để bắt đầu trước khi làm việc tại IMS. Bạn vui lòng đọc kỹ email và</p>")
                     .append("<p>theo dõi các thông báo từ công ty. Nếu bạn “ĐỒNG Ý” với Thư mời làm việc này, vui lòng phản hồi qua email để</p>")
                     .append("<p>Phòng Nhân sự hỗ trợ thủ tục trước 17h ngày ")
-                    .append(interviewSchedule.getSchedule().getDayOfMonth() + "/" + interviewSchedule.getSchedule().getMonthValue() + 1 + "/" + interviewSchedule.getSchedule().getYear() + "</p>")
+                    .append(offer.getDueDate().toString() + "</p>")
                     .append("<table>")
                     .append("<tr>")
                     .append("<td style=\"width: 30%; border-bottom: 1px dotted #333;\"><strong>Ngày bắt đầu</strong></td>")
                     .append("<td style=\"border-bottom: 1px dotted #333;\">")
-                    .append(interviewSchedule.getSchedule().plusDays(7).getDayOfMonth() + " tháng " + interviewSchedule.getSchedule().plusDays(7).getMonthValue() + " năm " + interviewSchedule.getSchedule().plusDays(7).getYear())
+                    .append(startDate.getDayOfMonth() + " tháng " + startDate.getMonthValue() + " năm " + startDate.getYear())
                     .append("</td>")
                     .append("</tr>")
                     .append("<tr>")
                     .append("<td style=\"width: 30%; border-bottom: 1px dotted #333;\"><strong>Địa điểm làm việc</strong></td>")
-                    .append("<td style=\"border-bottom: 1px dotted #333;\">F-Ville 3, Khu CNC Hòa Lạc, Thạch Thất, Hà Nội</td>")
+                    .append("<td style=\"border-bottom: 1px dotted #333;\">94 </td>")
                     .append("</tr>")
                     .append("<tr>")
                     .append("<td style=\"width: 30%; border-bottom: 1px dotted #333;\"><strong>Thời gian làm việc</strong></td>")
@@ -211,7 +218,7 @@ public class EmailServiceImpl implements EmailService {
                     .append("</tr>")
                     .append("<tr>")
                     .append("<td style=\"width: 30%; border-bottom: 1px dotted #333;\"><strong>Contact đón</strong></td>")
-                    .append("<td style=\"border-bottom: 1px dotted #333;\">Nguyễn Văn A – 0903460087 – nva@gmail.com (Liên hệ trước 2 ngày làm việc)</td>")
+                    .append("<td style=\"border-bottom: 1px dotted #333;\">"+ offer.getRecruiter().getFullName() +" - " + offer.getRecruiter().getPhoneNumber() +" (Liên hệ trước 2 ngày làm việc)</td>")
                     .append("</tr>")
                     .append("<tr>")
                     .append("<td style=\"width: 30%; border-bottom: 1px dotted #333;\"><strong>Công việc</strong></td>")
@@ -223,7 +230,7 @@ public class EmailServiceImpl implements EmailService {
                     .append("</tr>")
                     .append("<tr>")
                     .append("<td style=\"width: 30%;\"><strong>Hỗ trợ nhân sự</strong></td>")
-                    .append("<td>Nguyễn Thu Thảo – ntthao@gmail.com - Cán bộ Quản lý nhân sự</td>")
+                    .append("<td>"+ offer.getManager().getFullName() + " - "+ offer.getManager().getPhoneNumber() +" - Cán bộ Quản lý nhân sự</td>")
                     .append("</tr>")
                     .append("<tr><td colspan=\"2\" style=\"border-bottom: 1px dotted #333;\" ><br></td></tr>")
                     .append("</table>")

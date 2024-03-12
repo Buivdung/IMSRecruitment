@@ -54,4 +54,9 @@ $(document).ready(function () {
     }
     forgot.hide();
 
+    let time = setTimeout(function () {
+        $(".alerts").hide();
+        clearTimeout(time);
+    }, 5000)
+
 })

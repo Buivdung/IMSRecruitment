@@ -23,11 +23,13 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
 
     @Query("select c from Candidate c where " +
             "c.fullName LIKE %?1% " +
-            " AND c.status = ?2")
+            " AND c.status = ?2 " +
+            "order by c.id desc ")
     Page<Candidate> findAll(String nameKeyword, EStatus status, Pageable pageable);
 
     @Query("select c from Candidate c where " +
-            "c.fullName LIKE %?1%")
+            "c.fullName LIKE %?1% " +
+            "order by c.id desc ")
     Page<Candidate> findAll(String nameKeyword, Pageable pageable);
 
     List<Candidate> findAllByStatus(EStatus status);

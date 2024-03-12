@@ -16,14 +16,16 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
     @Query("SELECT o FROM Offer o " +
             "JOIN o.department d " +
             "WHERE concat(o.id,'') like %?1% " +
-            "AND d.name like %?2%")
+            "AND d.name like %?2% " +
+            "order by o.id desc ")
     Page<Offer> findAll(String param, String department, Pageable pageable);
 
     @Query("SELECT o FROM Offer o " +
             "JOIN o.department d " +
             "WHERE concat(o.id,'') like %?1% " +
             "AND d.name like %?2% " +
-            "AND o.status = ?3")
+            "AND o.status = ?3 " +
+            "order by o.id desc ")
     Page<Offer> findAll(String param, String department, EStatus status, Pageable pageable);
 
     @Query("SELECT o FROM Offer o " +
@@ -37,4 +39,8 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
     @Modifying
     @Query("DELETE Offer where resultInterview.candidate.id = ?1")
     void deleteByCandidateId(Long id);
+
+    @Modifying
+    @Query("DELETE Offer where id in ?1")
+    void deleteByOfferId(Long id);
 }

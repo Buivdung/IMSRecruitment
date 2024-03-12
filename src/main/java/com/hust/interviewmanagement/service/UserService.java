@@ -28,4 +28,5 @@ public interface UserService {
     Users updateUser(UserRequest userRequest);
     Users changePassword(PasswordRequest passwordRequest, String email);
 
+    void resetPassword(String email) throws MessagingException;
 }

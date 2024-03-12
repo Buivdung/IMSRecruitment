@@ -14,5 +14,5 @@ public interface EmailService {
     void sendMailCancelInterviewSchedule(Collection<String> email,String subject,InterviewSchedule interviewSchedule) throws MessagingException;
     void sendMailChangeInterviewSchedule(Collection<String> email,String subject,InterviewSchedule interviewSchedule) throws MessagingException;
     void sendMailToUser(Account account,String password) throws MessagingException;
-    void sendMailNotifyOnBoard(Collection<String> email, String subject, InterviewSchedule interviewSchedule) throws MessagingException;
+    void sendMailNotifyOnBoard(Collection<String> email, String subject, Offer offer) throws MessagingException;
 }

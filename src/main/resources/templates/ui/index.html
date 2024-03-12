@@ -67,7 +67,7 @@
                         <div>
                             <ion-icon name="cash-outline"></ion-icon>
                             <p sec:authorize="authenticated"
-                               class="detail-salary" th:utext="${'$' + j.salaryFrom + ' - $' + j.salaryTo}"></p>
+                               class="detail-salary" th:utext="${j.salaryFrom.toString().replace('.00','') + 'vnd  - ' + j.salaryTo.toString().replace('.00','') + 'vnd'}"></p>
                             <a th:href="@{/login}" sec:authorize="!authenticated"
                                class="detail-salary">Đăng nhập để xem chi tiết lương</a>
                         </div>

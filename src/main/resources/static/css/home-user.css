@@ -127,7 +127,7 @@
     font-size: 20px;
     width: 100%;
     font-weight: bold;
-    max-height: 20px;
+    max-height: 25px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;

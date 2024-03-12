@@ -110,7 +110,12 @@
             </div>
         </div>
     </div>
+
 </div>
+<div th:if="${alert}" class="alerts">
+    <h5 th:utext="${alert}"></h5>
+</div>
+
 <script th:src="@{/js/login.js}"></script>
 <script>
     (function () {

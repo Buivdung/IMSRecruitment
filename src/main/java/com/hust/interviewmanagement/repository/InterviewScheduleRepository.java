@@ -17,7 +17,7 @@ public interface InterviewScheduleRepository extends JpaRepository<InterviewSche
             "JOIN i.interviewer iv " +
             "WHERE concat(i.title, ri.candidate.fullName) like %?1% " +
             "AND iv.interviewer.fullName like %?2% " +
-            "ORDER BY i.schedule")
+            "ORDER BY i.schedule desc " )
     Page<InterviewSchedule> findAll(String param, String interviewer, Pageable pageable);
 
     @Query("SELECT distinct i FROM InterviewSchedule i " +
@@ -26,7 +26,7 @@ public interface InterviewScheduleRepository extends JpaRepository<InterviewSche
             "WHERE concat(i.title, ri.candidate.fullName) like %?1% " +
             "AND iv.interviewer.fullName like %?2% " +
             "AND i.status = ?3 " +
-            "ORDER BY i.schedule")
+            "ORDER BY i.schedule desc ")
     Page<InterviewSchedule> findAll(String param, String interviewer, EStatus status, Pageable pageable);
 
     //    @Query(value = "SELECT * FROM interview_schedule i  " +
