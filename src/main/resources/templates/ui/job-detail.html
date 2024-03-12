@@ -29,7 +29,7 @@
                         <ion-icon name="cash-outline"></ion-icon>
                         <p sec:authorize="authenticated"
                            class="job-salary"
-                           th:utext="${'$' + job.salaryFrom + ' - $' + job.salaryTo}"></p>
+                           th:utext="${job.salaryFrom.toString().replace('.00','') + 'vnd  - ' + job.salaryTo.toString().replace('.00','') + 'vnd'}"></p>
                         <a th:href="@{/login}"
                            sec:authorize="!authenticated"
                            class="job-salary"

@@ -39,6 +39,8 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final DepartmentRepository departmentRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+
     private static final String ALPHA = "abcdefghijklmnopqrstuvwxyz"; // a-z
     private static final String ALPHA_UPPERCASE = ALPHA.toUpperCase(); // A-Z
     private static final String DIGITS = "0123456789"; // 0-9
@@ -115,12 +117,12 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException("dont"));
         users.setDepartment(department);
         final String password = randomPassword(10);
-        Account account = getAccount(userRequest, "123456");
+        Account account = getAccount(userRequest, password);
         account.setUser(users);
 
         users.setAccount(account);
         Users users1 =  userRepository.save(users);
-        //        emailService.sendMailToUser(account, password);
+        emailService.sendMailToUser(account, password);
         return users1;
     }
 
@@ -145,6 +147,17 @@ public class UserServiceImpl implements UserService {
         users.getAccount().setCheckPassword(true);
         users.getAccount().setPassword(passwordEncoder.encode(passwordRequest.getNewPassword()));
         return userRepository.save(users);
+    }
+
+    @Override
+    @Transactional
+    public void resetPassword(String email) throws MessagingException {
+        final String password = randomPassword(10);
+        Users users = userRepository.findByAccount_Email(email).orElseThrow(() -> new IllegalArgumentException());
+        users.getAccount().setPassword(passwordEncoder.encode(password));
+        users.getAccount().setCheckPassword(false);
+        userRepository.save(users);
+        emailService.sendMailToUser(null,password);
     }
 
     private String randomPassword(int size) {

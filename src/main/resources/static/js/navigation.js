@@ -23,6 +23,6 @@ function deleteById(id) {
     addUrl.empty();
     addUrl.append(`
              <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a href="${url}" class="btn btn-primary" data-bs-dismiss="modal">Delete</a>`)
+                    <a href="${url}" class="btn btn-primary" >Delete</a>`)
 }
 let addUrl = $(".add_url");

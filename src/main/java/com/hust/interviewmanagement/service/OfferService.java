@@ -3,6 +3,7 @@ package com.hust.interviewmanagement.service;
 import com.hust.interviewmanagement.entities.Offer;
 import com.hust.interviewmanagement.web.request.OfferRequest;
 import com.hust.interviewmanagement.web.request.SearchRequest;
+import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
@@ -13,7 +14,7 @@ public interface OfferService {
     void deleteOffer(Long id);
     List<Offer> findAllOfferByDate(LocalDate fromDate, LocalDate toDate);
 
-    Offer saveOffer(OfferRequest offerRequest);
+    Offer saveOffer(OfferRequest offerRequest) throws MessagingException;
 
     Offer findOfferById(Long id);
 

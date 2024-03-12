@@ -7,6 +7,7 @@ import com.hust.interviewmanagement.web.request.OfferRequest;
 import com.hust.interviewmanagement.web.request.SearchRequest;
 import com.hust.interviewmanagement.web.response.CandidateResp;
 import com.hust.interviewmanagement.web.response.OfferExport;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -56,7 +57,7 @@ public class OfferController {
 
     @PostMapping("/create")
     public String createOffer(@ModelAttribute OfferRequest offerRequest,
-                              RedirectAttributes ra) {
+                              RedirectAttributes ra) throws MessagingException {
         Offer offer = offerService.saveOffer(offerRequest);
         if (Objects.isNull(offer)) {
             ra.addFlashAttribute("offerRequest", offerRequest);
@@ -123,6 +124,13 @@ public class OfferController {
         model.addAttribute("offer", offer);
         model.addAttribute("interviewSchedules", interviewerSchedules);
         return "ui/offer/approve";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id, RedirectAttributes ra) {
+        offerService.deleteOffer(id);
+        ra.addFlashAttribute("alart","Delete success");
+        return "redirect:/admin/offer/";
     }
 
     @GetMapping("/approve/accepted/{id}")

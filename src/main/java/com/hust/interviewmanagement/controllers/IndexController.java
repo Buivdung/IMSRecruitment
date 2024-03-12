@@ -9,13 +9,16 @@ import com.hust.interviewmanagement.service.*;
 import com.hust.interviewmanagement.utils.SearchUtil;
 import com.hust.interviewmanagement.web.request.CandidateRequest;
 import com.hust.interviewmanagement.web.request.JobSearch;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +42,7 @@ public class IndexController {
     private final CandidateService candidateService;
     private final SearchUtil searchUtil;
     private final NotificationService notificationService;
+    private final AccountService accountService;
 
     @GetMapping("/admin/user")
     public String user() {
@@ -152,5 +156,15 @@ public class IndexController {
         return "ui/403-user";
     }
 
+    @PostMapping("/forgotPassword")
+    public String forgotPassword(@RequestParam String email , RedirectAttributes ra) {
+        try {
+            userService.resetPassword(email);
+            ra.addFlashAttribute("alert","Mat khau da duoc gui toi email cua ban");
+        } catch (IllegalArgumentException | MessagingException e){
+            ra.addFlashAttribute("alert","Email khong ton tai");
+        }
+        return "redirect:/login";
+    }
 
 }
