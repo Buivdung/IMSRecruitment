@@ -120,7 +120,17 @@
                             <label class="form-lb"> Meeting</label>
                             <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
                         </div>
-                        <div class="form-field mb-4">
+                        <div class="form-field mb-4" th:if="${resultInterviews.result.name() != 'NA'}">
+                            <input type="text"
+                                   style="background-color: lightgray;pointer-events: none"
+                                   class="form-input form-control"
+                                   th:value="${resultInterviews.result.name()}"
+                                   readonly
+                                   required/>
+                            <label class="form-lb"> Meeting</label>
+                            <ion-icon class="form-icon" name="chatbox-ellipses-outline"></ion-icon>
+                        </div>
+                        <div class="form-field mb-4" th:if="${resultInterviews.result.name() == 'NA'}">
                             <select class="form-select-ct form-control pe-0"
                                     id="result"
                                     name="result"

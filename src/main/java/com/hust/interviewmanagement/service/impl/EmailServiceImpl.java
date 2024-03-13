@@ -245,4 +245,51 @@ public class EmailServiceImpl implements EmailService {
             sendMailHtml(emailDetail);
         }
     }
+
+    @Override
+    @Async("taskExecutor")
+    public void sendMailNotificationResultSuccess(ResultInterview interview) throws MessagingException {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" <h1 style=\"color: blue; text-align: center;\">THƯ THÔNG BÁO KẾT QUẢ PHỎNG VẤN</h1>")
+                .append("<p>Thân gửi bạn: "+ interview.getCandidate().getFullName() +" </p>")
+                .append("<p>Chúng tôi xin trân trọng thông báo và chúc bạn đã trúng tuyển vị trí ")
+                .append(interview.getCandidate().getJob().getTitle())
+                .append(" tại ")
+                .append(" Cong ty IMS")
+                .append("<p>Nếu bạn nhận được thư này, vui lòng phản hồi qua email hoặc liên hệ với</p>")
+                .append("<td style=\"width: 30%;\"><strong>Hỗ trợ nhân sự: </strong></td>")
+                .append("<td>"+ interview.getInterviewSchedule().getRecruiter().getFullName())
+                .append(" - ")
+                .append(interview.getInterviewSchedule().getRecruiter().getPhoneNumber())
+                .append(" - Cán bộ Quản lý nhân sự</td>");
+        EmailDetail emailDetail = EmailDetail.builder()
+                .recipient("dungbv201098@gmail.com")
+                .subject("THƯ THÔNG BÁO KẾT QUẢ PHỎNG VẤN")
+                .msgBody(sb.toString())
+                .build();
+        sendMailHtml(emailDetail);
+    }
+
+    @Override
+    @Async("taskExecutor")
+    public void sendMailNotificationResultFail(ResultInterview interview) throws MessagingException {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" <h1 style=\"color: blue; text-align: center;\">THƯ THÔNG BÁO KẾT QUẢ PHỎNG VẤN</h1>")
+                .append("<p>Thân gửi bạn: "+ interview.getCandidate().getFullName() +" </p>")
+                .append("<p>Chúng tôi xin trân trọng thông báo bạn đã không trúng tuyển vị trí ")
+                .append(interview.getCandidate().getJob().getTitle())
+                .append(" tại công ty IMS")
+                .append("<p>Nếu có vấn đề thắc mắc, vui lòng phản hồi qua email hoặc liên hệ với</p>")
+                .append("<td><strong>Hỗ trợ nhân sự: </strong></td>")
+                .append("<td>"+ interview.getInterviewSchedule().getRecruiter().getFullName())
+                .append(" - ")
+                .append(interview.getInterviewSchedule().getRecruiter().getPhoneNumber())
+                .append(" - Cán bộ Quản lý nhân sự</td>");
+        EmailDetail emailDetail = EmailDetail.builder()
+                .recipient("dungbv201098@gmail.com")
+                .subject("THƯ THÔNG BÁO KẾT QUẢ PHỎNG VẤN")
+                .msgBody(sb.toString())
+                .build();
+        sendMailHtml(emailDetail);
+    }
 }

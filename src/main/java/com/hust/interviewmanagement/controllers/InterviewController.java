@@ -137,7 +137,7 @@ public class InterviewController {
     public String result(@PathVariable Long interviewId,
                          @PathVariable Long resultId,
                          @ModelAttribute ResultRequest resultRequest,
-                         RedirectAttributes ra) {
+                         RedirectAttributes ra) throws MessagingException {
         resultService.updateResult(resultRequest);
         ra.addFlashAttribute("alert","Update thanh cong");
         return "redirect:/admin/interview/" + interviewId + "/candidates";
